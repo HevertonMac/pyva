@@ -1,4 +1,4 @@
-# Generated from C:/Users/soare/OneDrive/Área de Trabalho/Trab_Final/Javython.g4 by ANTLR 4.13.2
+# Generated from C:/Users/hever/OneDrive/Desktop/Trab_Final/Javython.g4 by ANTLR 4.13.2
 from antlr4 import *
 if "." in __name__:
     from .JavythonParser import JavythonParser

@@ -1,5 +1,5 @@
 program: FatorialRecursivo;
-decids:
+decIds:
   i: int;
 
 int fatorial (int n) {
@@ -14,19 +14,18 @@ main:
   decIds:
     numero: int;
     resultado: int;
-    N, A10: int;
+    A10: int;
+    N = 5;
 
-
-  N = 100;
 
  for(i = 0; i<N; i--){
-
-
+  a10 = 10;
   //print ("Programa Fatorial. Digite o valor?");
   input (numero);
-
-  resultado = fatorial(numero,A10);
+  resultado = fatorial(numero);
 
   print ("O fatorial de ", numero, " eh: ", resultado);
 }
+
+
 end

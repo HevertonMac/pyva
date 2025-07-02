@@ -19,7 +19,7 @@ main:
   }
 
   print("--- Teste com FOR e IF-ELSE ---");
-  for (i = 0; i < LIMITE; i++) {
+  for (i = 0; i < LIMITE; i = i + 1) {
     if (i == 5) {
       print("Estamos na metade!");
     } else {

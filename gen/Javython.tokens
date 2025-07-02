@@ -50,7 +50,6 @@ LINE_COMMENT=48
 'main'=2
 'end'=3
 'return'=4
-'decIds'=5
 'print'=6
 'input'=7
 'if'=8
