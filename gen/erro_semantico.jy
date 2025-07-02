@@ -1,0 +1,15 @@
+// Arquivo: erro_semantico.jy
+// Objetivo: Demonstrar a detecção de um erro semântico.
+
+program: programa_erro_semantico;
+
+decIds:
+    // A variável 'valor_final' foi declarada.
+    valor_final: int;
+
+main:
+    // ERRO: A variável 'valor_inicial' nunca foi declarada na seção decIds.
+    valor_final = valor_inicial + 10;
+
+    print(valor_final);
+end

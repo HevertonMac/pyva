@@ -1,0 +1,28 @@
+program: CalculoMedia;
+decIds:
+i : int;
+
+real calcularMedia (int nota1, int nota2, real nota3) {
+  decIds:
+    media: real;
+  
+  media = (nota1 + nota2 + nota3) / 3;
+  return media;
+}
+
+main:
+  decIds:
+    n1, n2: int;
+    n3: real;
+    mediaFinal: real;
+
+  print ("Programa Media. Digite as duas primeiras notas (inteiras)?");
+  input (n1, n2);
+
+  print ("Digite a terceira nota (real)?");
+  input (n3);
+
+  mediaFinal = calcularMedia(n1, n2, n3);
+
+  print ("A media das notas eh: ", mediaFinal);
+end

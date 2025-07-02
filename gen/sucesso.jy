@@ -1,0 +1,16 @@
+// Arquivo: sucesso.jy
+// Objetivo: Demonstrar um código válido que será compilado com sucesso.
+
+program: meu_programa_correto;
+
+decIds:
+    a: int;
+    b: int;
+    resultado: int;
+
+main:
+    a = 15;
+    b = 30;
+    resultado = a + b;
+    print(resultado);
+end

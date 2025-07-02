@@ -1,0 +1,14 @@
+// Arquivo: erro_sintaxe.jy
+// Objetivo: Demonstrar a detecção de um erro de sintaxe.
+
+program: programa_erro_sintaxe;
+
+decIds:
+    x: int;
+
+main:
+    // ERRO: Falta o ponto e vírgula na linha abaixo, violando a gramática.
+    x = 100
+
+    print(x);
+end

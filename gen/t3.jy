@@ -1,0 +1,29 @@
+program: TesteControle;
+decIds:
+intoi: int;
+LIMITE: int;
+boleano: bool;
+
+main:
+  decIds:
+    contador: int;
+    i: int;
+    LIMITE = 10;
+
+  print("--- Teste com WHILE ---");
+  !boleano;
+  contador = 5;
+  while (contador > 0) {
+    print("Contagem regressiva: ", contador);
+    contador = contador - 1;
+  }
+
+  print("--- Teste com FOR e IF-ELSE ---");
+  for (i = 0; i < LIMITE; i++) {
+    if (i == 5) {
+      print("Estamos na metade!");
+    } else {
+      print("Contagem progressiva: ", i);
+    }
+  }
+end

@@ -1,0 +1,32 @@
+program: FatorialRecursivo;
+decids:
+  i: int;
+
+int fatorial (int n) {
+  if (n > 1) {
+    return n * fatorial(n - 1);
+  } else {
+    return 1;
+  }
+}
+
+main:
+  decIds:
+    numero: int;
+    resultado: int;
+    N, A10: int;
+
+
+  N = 100;
+
+ for(i = 0; i<N; i--){
+
+
+  //print ("Programa Fatorial. Digite o valor?");
+  input (numero);
+
+  resultado = fatorial(numero,A10);
+
+  print ("O fatorial de ", numero, " eh: ", resultado);
+}
+end

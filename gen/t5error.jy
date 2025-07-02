@@ -1,0 +1,34 @@
+program: TesteOperadores;
+decIds:
+i : int;
+
+main:
+  decIds:
+    a, b: int;
+    x, y: real;
+    flag1, flag2: bool;
+    texto1, texto2: str;
+
+  // Operações com inteiros
+  a = 10;
+  b = 3;
+  print("Soma: ", a + b);
+  print("Divisao inteira: ", a / b);
+
+  // Operações com reais
+  x = 5.5;
+  y = 2.0;
+  print("Multiplicacao real: ", x * y);
+
+  // Operações com booleanos e negação [cite: 17]
+  flag1 = true;
+  flag2 = !flag1;
+  print("Valor de flag2: ", flag2);
+
+  // Operações com strings e comparação [cite: 21]
+  erro
+  texto2 = "Python";
+  if (texto1 != texto2) {
+    print(texto1, " eh diferente de ", texto2);
+  }
+end
