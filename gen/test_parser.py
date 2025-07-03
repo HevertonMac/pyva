@@ -1,4 +1,3 @@
-# Caminho do arquivo: gen/test_parser.py
 import sys
 import os
 from antlr4 import *
@@ -7,34 +6,24 @@ from antlr4.error.ErrorListener import ErrorListener
 from JavythonLexer import JavythonLexer
 from JavythonParser import JavythonParser
 from JavythonVisitor import JavythonVisitor
-from JasminCodeGenerator import JasminVisitor  # Importa o novo gerador de código
+from JasminCodeGenerator import JasminVisitor
 
 
 class Symbol:
-    """
-    Armazena informações sobre um símbolo (variável, constante ou função).
-    """
-
-    def __init__(self, name, type, is_constant=False, params_count=None, index=None):
+    def __init__(self, name, type, is_constant=False, params_count=None, params_types=None):
         self.name = name
         self.type = type
         self.is_constant = is_constant
         self.params_count = params_count
-        self.index = index  # Índice da variável local para Jasmin
+        self.params_types = params_types if params_types is not None else []
 
 
 class SymbolTable:
-    """
-    Gerencia os escopos e os símbolos de forma case-insensitive.
-    """
-
     def __init__(self):
         self.scope_stack = [{}]
-        self.local_var_index = 0
 
     def enter_scope(self):
         self.scope_stack.append({})
-        self.local_var_index = 0  # Reinicia o índice para o novo escopo
 
     def exit_scope(self):
         if len(self.scope_stack) > 1:
@@ -44,11 +33,7 @@ class SymbolTable:
         current_scope = self.scope_stack[-1]
         symbol_name_lower = symbol.name.lower()
         if symbol_name_lower in current_scope:
-            raise Exception(f"Erro Semântico na Linha {line}: Símbolo '{symbol.name}' já foi declarado.")
-
-        # Atribui um índice para variáveis locais
-        symbol.index = self.local_var_index
-        self.local_var_index += 1
+            raise Exception(f"Erro Semântico na Linha {line}: Símbolo '{symbol.name}' já foi declarado neste escopo.")
         current_scope[symbol_name_lower] = symbol
 
     def lookup_symbol(self, name):
@@ -59,34 +44,65 @@ class SymbolTable:
         return None
 
 
-# A classe SemanticVisitor continua a mesma da resposta anterior, focada na análise.
-# Por brevidade, não será repetida aqui. Assumimos que ela existe e funciona.
 class SemanticVisitor(JavythonVisitor):
     def __init__(self):
         self.symbol_table = SymbolTable()
 
+    def visitMetodo(self, ctx: JavythonParser.MetodoContext):
+        method_name = ctx.ID().getText()
+        return_type = ctx.tipo().getText() if ctx.tipo() else 'void'
+        line = ctx.ID().symbol.line
+
+        params_types = []
+        num_params = 0
+        if ctx.parametros():
+            num_params = len(ctx.parametros().parametro())
+            for p in ctx.parametros().parametro():
+                params_types.append(p.tipo().getText())
+
+        # Adiciona a função ao escopo PAI (antes de entrar no novo escopo)
+        method_symbol = Symbol(method_name, return_type, params_count=num_params, params_types=params_types)
+        self.symbol_table.add_symbol(method_symbol, line)
+
+        # Entra no escopo da função
+        self.symbol_table.enter_scope()
+
+        # Adiciona os parâmetros ao NOVO escopo
+        if ctx.parametros():
+            for param in ctx.parametros().parametro():
+                param_name = param.ID().getText()
+                param_type = param.tipo().getText()
+                param_line = param.ID().symbol.line
+                param_symbol = Symbol(param_name, param_type)
+                self.symbol_table.add_symbol(param_symbol, param_line)
+
+        # Visita o corpo da função
+        self.visit(ctx.blocoMetodo())
+
+        # Sai do escopo da função
+        self.symbol_table.exit_scope()
+        return None  # Evita que os filhos sejam visitados novamente
+
+    def visitBlocoMetodo(self, ctx: JavythonParser.BlocoMetodoContext):
+        # Apenas visita os filhos (decIds e comandos)
+        return self.visitChildren(ctx)
+
     def visitDeclaracao(self, ctx: JavythonParser.DeclaracaoContext):
+        # Declaração de constante
         if ctx.ID():
             var_name = ctx.ID().getText()
             line = ctx.ID().symbol.line
-            valor_ctx = ctx.valor()
-            var_type = None
-            if valor_ctx.INT():
-                var_type = 'int'
-            elif valor_ctx.REAL():
-                var_type = 'real'
-            elif valor_ctx.STRING():
-                var_type = 'str'
-            elif valor_ctx.TRUE() or valor_ctx.FALSE():
-                var_type = 'bool'
+            # Inferir tipo (simplificado)
+            var_type = 'int' if ctx.valor().INT() else 'real' if ctx.valor().REAL() else 'str'
             symbol = Symbol(var_name, var_type, is_constant=True)
             self.symbol_table.add_symbol(symbol, line)
+        # Declaração de variável
         elif ctx.listaIds():
             var_type = ctx.tipo().getText()
             for var_id in ctx.listaIds().ID():
                 var_name = var_id.getText()
                 line = var_id.symbol.line
-                symbol = Symbol(var_name, var_type, is_constant=False)
+                symbol = Symbol(var_name, var_type)
                 self.symbol_table.add_symbol(symbol, line)
         return self.visitChildren(ctx)
 
@@ -98,7 +114,7 @@ class SemanticVisitor(JavythonVisitor):
             raise Exception(f"Erro Semântico na Linha {line}: Variável '{var_name}' não declarada.")
         if symbol.is_constant:
             raise Exception(
-                f"Erro Semântico na Linha {line}: Não é possível atribuir um novo valor à constante '{var_name}'.")
+                f"Erro Semântico na Linha {line}: Não é possível alterar o valor da constante '{var_name}'.")
         return self.visitChildren(ctx)
 
     def visitIdExpr(self, ctx: JavythonParser.IdExprContext):
@@ -124,7 +140,6 @@ def main():
         print(f">>> Lendo o arquivo de entrada: {input_file}")
         input_stream = FileStream(input_file, encoding='utf-8')
 
-        # --- FASE 1: ANÁLISE LÉXICA E SINTÁTICA ---
         print("\n[FASE 1: ANÁLISE LÉXICA E SINTÁTICA]")
         lexer = JavythonLexer(input_stream)
         stream = CommonTokenStream(lexer)
@@ -134,15 +149,12 @@ def main():
         tree = parser.program()
         print(">>> Análise sintática concluída com sucesso!")
 
-        # --- FASE 2: ANÁLISE SEMÂNTICA ---
         print("\n[FASE 2: ANÁLISE SEMÂNTICA]")
         semantic_visitor = SemanticVisitor()
         semantic_visitor.visit(tree)
         print(">>> Análise semântica concluída com sucesso!")
 
-        # --- FASE 3: GERAÇÃO DE CÓDIGO INTERMEDIÁRIO (JASMIN) ---
         print("\n[FASE 3: GERAÇÃO DE CÓDIGO JASMIN]")
-        # Extrai o nome do programa do nó da AST para nomear a classe
         program_name = tree.getChild(2).getText()
         jasmin_visitor = JasminVisitor(program_name)
         jasmin_visitor.visit(tree)
@@ -153,12 +165,8 @@ def main():
             f.write(jasmin_code)
         print(f">>> Código Jasmin gerado e salvo em '{output_filename}'")
 
-        # --- ETAPA 4: GERAÇÃO DA SAÍDA (AST) ---
         print("\n------------------------------------")
         print("COMPILAÇÃO BEM-SUCEDIDA")
-        print("Árvore Sintática Abstrata (AST):")
-        print("------------------------------------")
-        # print(tree.toStringTree(recog=parser))
         print("------------------------------------")
 
     except FileNotFoundError:

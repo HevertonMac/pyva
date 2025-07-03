@@ -17,6 +17,60 @@ class JavythonListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by JavythonParser#bloco.
+    def enterBloco(self, ctx:JavythonParser.BlocoContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#bloco.
+    def exitBloco(self, ctx:JavythonParser.BlocoContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#blocoMetodo.
+    def enterBlocoMetodo(self, ctx:JavythonParser.BlocoMetodoContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#blocoMetodo.
+    def exitBlocoMetodo(self, ctx:JavythonParser.BlocoMetodoContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#blocoMain.
+    def enterBlocoMain(self, ctx:JavythonParser.BlocoMainContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#blocoMain.
+    def exitBlocoMain(self, ctx:JavythonParser.BlocoMainContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#metodo.
+    def enterMetodo(self, ctx:JavythonParser.MetodoContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#metodo.
+    def exitMetodo(self, ctx:JavythonParser.MetodoContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#parametros.
+    def enterParametros(self, ctx:JavythonParser.ParametrosContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#parametros.
+    def exitParametros(self, ctx:JavythonParser.ParametrosContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#parametro.
+    def enterParametro(self, ctx:JavythonParser.ParametroContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#parametro.
+    def exitParametro(self, ctx:JavythonParser.ParametroContext):
+        pass
+
+
     # Enter a parse tree produced by JavythonParser#decIds.
     def enterDecIds(self, ctx:JavythonParser.DecIdsContext):
         pass
@@ -62,51 +116,6 @@ class JavythonListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by JavythonParser#metodo.
-    def enterMetodo(self, ctx:JavythonParser.MetodoContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#metodo.
-    def exitMetodo(self, ctx:JavythonParser.MetodoContext):
-        pass
-
-
-    # Enter a parse tree produced by JavythonParser#parametros.
-    def enterParametros(self, ctx:JavythonParser.ParametrosContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#parametros.
-    def exitParametros(self, ctx:JavythonParser.ParametrosContext):
-        pass
-
-
-    # Enter a parse tree produced by JavythonParser#parametro.
-    def enterParametro(self, ctx:JavythonParser.ParametroContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#parametro.
-    def exitParametro(self, ctx:JavythonParser.ParametroContext):
-        pass
-
-
-    # Enter a parse tree produced by JavythonParser#blocoMetodo.
-    def enterBlocoMetodo(self, ctx:JavythonParser.BlocoMetodoContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#blocoMetodo.
-    def exitBlocoMetodo(self, ctx:JavythonParser.BlocoMetodoContext):
-        pass
-
-
-    # Enter a parse tree produced by JavythonParser#blocoMain.
-    def enterBlocoMain(self, ctx:JavythonParser.BlocoMainContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#blocoMain.
-    def exitBlocoMain(self, ctx:JavythonParser.BlocoMainContext):
-        pass
-
-
     # Enter a parse tree produced by JavythonParser#comando.
     def enterComando(self, ctx:JavythonParser.ComandoContext):
         pass
@@ -116,12 +125,66 @@ class JavythonListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by JavythonParser#ifElse.
+    def enterIfElse(self, ctx:JavythonParser.IfElseContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#ifElse.
+    def exitIfElse(self, ctx:JavythonParser.IfElseContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#whileLoop.
+    def enterWhileLoop(self, ctx:JavythonParser.WhileLoopContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#whileLoop.
+    def exitWhileLoop(self, ctx:JavythonParser.WhileLoopContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#forLoop.
+    def enterForLoop(self, ctx:JavythonParser.ForLoopContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#forLoop.
+    def exitForLoop(self, ctx:JavythonParser.ForLoopContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#io.
+    def enterIo(self, ctx:JavythonParser.IoContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#io.
+    def exitIo(self, ctx:JavythonParser.IoContext):
+        pass
+
+
     # Enter a parse tree produced by JavythonParser#atribuicao.
     def enterAtribuicao(self, ctx:JavythonParser.AtribuicaoContext):
         pass
 
     # Exit a parse tree produced by JavythonParser#atribuicao.
     def exitAtribuicao(self, ctx:JavythonParser.AtribuicaoContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#chamadaMetodo.
+    def enterChamadaMetodo(self, ctx:JavythonParser.ChamadaMetodoContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#chamadaMetodo.
+    def exitChamadaMetodo(self, ctx:JavythonParser.ChamadaMetodoContext):
+        pass
+
+
+    # Enter a parse tree produced by JavythonParser#argumentos.
+    def enterArgumentos(self, ctx:JavythonParser.ArgumentosContext):
+        pass
+
+    # Exit a parse tree produced by JavythonParser#argumentos.
+    def exitArgumentos(self, ctx:JavythonParser.ArgumentosContext):
         pass
 
 
@@ -206,57 +269,12 @@ class JavythonListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by JavythonParser#chamadaMetodo.
-    def enterChamadaMetodo(self, ctx:JavythonParser.ChamadaMetodoContext):
+    # Enter a parse tree produced by JavythonParser#logicaExpr.
+    def enterLogicaExpr(self, ctx:JavythonParser.LogicaExprContext):
         pass
 
-    # Exit a parse tree produced by JavythonParser#chamadaMetodo.
-    def exitChamadaMetodo(self, ctx:JavythonParser.ChamadaMetodoContext):
-        pass
-
-
-    # Enter a parse tree produced by JavythonParser#argumentos.
-    def enterArgumentos(self, ctx:JavythonParser.ArgumentosContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#argumentos.
-    def exitArgumentos(self, ctx:JavythonParser.ArgumentosContext):
-        pass
-
-
-    # Enter a parse tree produced by JavythonParser#ifElse.
-    def enterIfElse(self, ctx:JavythonParser.IfElseContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#ifElse.
-    def exitIfElse(self, ctx:JavythonParser.IfElseContext):
-        pass
-
-
-    # Enter a parse tree produced by JavythonParser#whileLoop.
-    def enterWhileLoop(self, ctx:JavythonParser.WhileLoopContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#whileLoop.
-    def exitWhileLoop(self, ctx:JavythonParser.WhileLoopContext):
-        pass
-
-
-    # Enter a parse tree produced by JavythonParser#forLoop.
-    def enterForLoop(self, ctx:JavythonParser.ForLoopContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#forLoop.
-    def exitForLoop(self, ctx:JavythonParser.ForLoopContext):
-        pass
-
-
-    # Enter a parse tree produced by JavythonParser#io.
-    def enterIo(self, ctx:JavythonParser.IoContext):
-        pass
-
-    # Exit a parse tree produced by JavythonParser#io.
-    def exitIo(self, ctx:JavythonParser.IoContext):
+    # Exit a parse tree produced by JavythonParser#logicaExpr.
+    def exitLogicaExpr(self, ctx:JavythonParser.LogicaExprContext):
         pass
 
 

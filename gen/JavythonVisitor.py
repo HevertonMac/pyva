@@ -14,6 +14,36 @@ class JavythonVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by JavythonParser#bloco.
+    def visitBloco(self, ctx:JavythonParser.BlocoContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#blocoMetodo.
+    def visitBlocoMetodo(self, ctx:JavythonParser.BlocoMetodoContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#blocoMain.
+    def visitBlocoMain(self, ctx:JavythonParser.BlocoMainContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#metodo.
+    def visitMetodo(self, ctx:JavythonParser.MetodoContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#parametros.
+    def visitParametros(self, ctx:JavythonParser.ParametrosContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#parametro.
+    def visitParametro(self, ctx:JavythonParser.ParametroContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by JavythonParser#decIds.
     def visitDecIds(self, ctx:JavythonParser.DecIdsContext):
         return self.visitChildren(ctx)
@@ -39,38 +69,43 @@ class JavythonVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by JavythonParser#metodo.
-    def visitMetodo(self, ctx:JavythonParser.MetodoContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by JavythonParser#parametros.
-    def visitParametros(self, ctx:JavythonParser.ParametrosContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by JavythonParser#parametro.
-    def visitParametro(self, ctx:JavythonParser.ParametroContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by JavythonParser#blocoMetodo.
-    def visitBlocoMetodo(self, ctx:JavythonParser.BlocoMetodoContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by JavythonParser#blocoMain.
-    def visitBlocoMain(self, ctx:JavythonParser.BlocoMainContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by JavythonParser#comando.
     def visitComando(self, ctx:JavythonParser.ComandoContext):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by JavythonParser#ifElse.
+    def visitIfElse(self, ctx:JavythonParser.IfElseContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#whileLoop.
+    def visitWhileLoop(self, ctx:JavythonParser.WhileLoopContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#forLoop.
+    def visitForLoop(self, ctx:JavythonParser.ForLoopContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#io.
+    def visitIo(self, ctx:JavythonParser.IoContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by JavythonParser#atribuicao.
     def visitAtribuicao(self, ctx:JavythonParser.AtribuicaoContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#chamadaMetodo.
+    def visitChamadaMetodo(self, ctx:JavythonParser.ChamadaMetodoContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by JavythonParser#argumentos.
+    def visitArgumentos(self, ctx:JavythonParser.ArgumentosContext):
         return self.visitChildren(ctx)
 
 
@@ -119,33 +154,8 @@ class JavythonVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by JavythonParser#chamadaMetodo.
-    def visitChamadaMetodo(self, ctx:JavythonParser.ChamadaMetodoContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by JavythonParser#argumentos.
-    def visitArgumentos(self, ctx:JavythonParser.ArgumentosContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by JavythonParser#ifElse.
-    def visitIfElse(self, ctx:JavythonParser.IfElseContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by JavythonParser#whileLoop.
-    def visitWhileLoop(self, ctx:JavythonParser.WhileLoopContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by JavythonParser#forLoop.
-    def visitForLoop(self, ctx:JavythonParser.ForLoopContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by JavythonParser#io.
-    def visitIo(self, ctx:JavythonParser.IoContext):
+    # Visit a parse tree produced by JavythonParser#logicaExpr.
+    def visitLogicaExpr(self, ctx:JavythonParser.LogicaExprContext):
         return self.visitChildren(ctx)
 
 
