@@ -1,6 +1,4 @@
 // Caminho: teste_semantico.jy
-// Este arquivo contém erros semânticos propositais para testar o SemanticVisitor.
-// Com o visitor atual, a maioria destes erros NÃO será detectada.
 
 program: TesteSemantico;
 
