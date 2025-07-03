@@ -6,7 +6,6 @@ type_map = {'int': 'I', 'real': 'F', 'str': 'Ljava/lang/String;', 'bool': 'I', '
 
 
 class Symbol:
-    # Adicionamos 'is_global' para diferenciar variáveis globais de locais
     def __init__(self, name, type, index=None, is_constant=False, params_types=None, is_global=False):
         self.name, self.type, self.index, self.is_constant, self.params_types, self.is_global = \
             name, type, index, is_constant, params_types if params_types else [], is_global
@@ -19,13 +18,14 @@ class SymbolTable:
 
     def enter_scope(self):
         self.scopes.append({})
+        self.var_index = 0  # Reseta o contador para o novo escopo
 
     def exit_scope(self):
         self.scopes.pop()
 
     def add_symbol(self, symbol):
-        # Variáveis locais recebem um índice, globais não.
         if not symbol.is_global:
+            # Atribui o próximo índice disponível e o incrementa
             symbol.index = self.var_index
             self.var_index += 1
         self.scopes[-1][symbol.name.lower()] = symbol
@@ -43,6 +43,8 @@ class JasminVisitor(JavythonVisitor):
         self.symbol_table = SymbolTable()
         self.label_count = 0
         self.current_method_return_type = None
+        self.scanner_var_index = -1
+        self.string_builder_var_index = -1
 
     def get_code(self):
         return "\n".join(self.code)
@@ -61,8 +63,8 @@ class JasminVisitor(JavythonVisitor):
             if ctx.valor().INT() or ctx.valor().TRUE() or ctx.valor().FALSE(): return 'int'
             if ctx.valor().REAL(): return 'real'
             if ctx.valor().STRING(): return 'str'
-        if isinstance(ctx, JavythonParser.ChamadaMetodoContext):
-            symbol = self.symbol_table.lookup(ctx.ID().getText())
+        if isinstance(ctx, JavythonParser.ChamadaExprContext):
+            symbol = self.symbol_table.lookup(ctx.chamadaMetodo().ID().getText())
             return symbol.type if symbol else 'void'
         if isinstance(ctx, (JavythonParser.AddsubExprContext, JavythonParser.MultdivExprContext)):
             type_left = self.get_expression_type(ctx.expressao(0))
@@ -70,29 +72,23 @@ class JasminVisitor(JavythonVisitor):
             return 'real' if type_left == 'real' or type_right == 'real' else 'int'
         return 'int'
 
-    # --- LÓGICA DE GERAÇÃO DE CÓDIGO MODIFICADA ---
-
     def visitProgram(self, ctx: JavythonParser.ProgramContext):
         self.code.append(f".class public {self.program_name}")
         self.code.append(".super java/lang/Object")
 
-        # 1. Visita decIds PRIMEIRO para registrar e declarar os campos estáticos
         if ctx.decIds():
-            self.code.append("") # Espaçamento
-            # Passamos um contexto para indicar que são declarações globais
+            self.code.append("")
             self.visitDecIds(ctx.decIds(), is_global_context=True)
 
         self.code.append("\n.method public <init>()V")
         self.code.append("    aload_0\n    invokenonvirtual java/lang/Object/<init>()V\n    return")
         self.code.append(".end method\n")
 
-        # 2. Visita o resto (métodos e main)
         for child in ctx.children:
             if isinstance(child, (JavythonParser.MetodoContext, JavythonParser.BlocoMainContext)):
                 self.visit(child)
 
     def visitDecIds(self, ctx: JavythonParser.DecIdsContext, is_global_context=False):
-        # Se for contexto global, apenas declaramos os campos.
         if is_global_context:
             for declaracao_ctx in ctx.declaracao():
                 var_type_ctx = declaracao_ctx.tipo()
@@ -101,14 +97,10 @@ class JasminVisitor(JavythonVisitor):
                     jasmin_type = type_map[var_type]
                     for var_id in declaracao_ctx.listaIds().ID():
                         var_name = var_id.getText()
-                        # Adiciona à tabela de símbolos como global
                         self.symbol_table.add_symbol(Symbol(var_name, var_type, is_global=True))
-                        # Gera a declaração do campo estático
                         self.code.append(f".field public static {var_name} {jasmin_type}")
         else:
-            # Comportamento antigo para variáveis locais dentro de funções
             self.visitChildren(ctx)
-
 
     def visitAtribuicao(self, ctx: JavythonParser.AtribuicaoContext):
         name = ctx.ID().getText()
@@ -120,7 +112,6 @@ class JasminVisitor(JavythonVisitor):
         if symbol.type == 'real' and expr_type == 'int':
             self.code.append("    i2f")
 
-        # Se for global, usa putstatic. Senão, usa istore/fstore.
         if symbol.is_global:
             jasmin_type = type_map[symbol.type]
             self.code.append(f"    putstatic {self.program_name}/{symbol.name} {jasmin_type}")
@@ -129,12 +120,13 @@ class JasminVisitor(JavythonVisitor):
                 self.code.append(f"    istore {symbol.index}")
             elif symbol.type == 'real':
                 self.code.append(f"    fstore {symbol.index}")
+            else:  # string
+                self.code.append(f"    astore {symbol.index}")
 
     def visitIdExpr(self, ctx: JavythonParser.IdExprContext):
         name = ctx.ID().getText()
         symbol = self.symbol_table.lookup(name)
 
-        # Se for global, usa getstatic. Senão, usa iload/fload.
         if symbol.is_global:
             jasmin_type = type_map[symbol.type]
             self.code.append(f"    getstatic {self.program_name}/{symbol.name} {jasmin_type}")
@@ -143,40 +135,43 @@ class JasminVisitor(JavythonVisitor):
                 self.code.append(f"    iload {symbol.index}")
             elif symbol.type == 'real':
                 self.code.append(f"    fload {symbol.index}")
+            else:  # string
+                self.code.append(f"    aload {symbol.index}")
 
     def visitDeclaracao(self, ctx: JavythonParser.DeclaracaoContext):
-        # Esta função agora só lida com declarações locais dentro de métodos.
-        # As globais são tratadas em visitDecIds.
         var_type = ctx.tipo().getText() if ctx.tipo() else 'int'
-        is_const = True if ctx.ID() else False
-        ids_to_process = ctx.listaIds().ID() if ctx.listaIds() else [ctx.ID()]
+        ids_to_process = ctx.listaIds().ID()
 
         for var_id in ids_to_process:
             name = var_id.getText()
             if self.symbol_table.lookup(name) is None:
-                # Garante que está criando um símbolo local
-                self.symbol_table.add_symbol(Symbol(name, var_type, is_constant=is_const, is_global=False))
+                self.symbol_table.add_symbol(Symbol(name, var_type, is_global=False))
 
-        if ctx.ASSIGN():
-            # A atribuição em declarações locais continua a mesma
+        if ctx.ASSIGN() or (hasattr(ctx, 'valor') and ctx.valor()):
+            expr = ctx.expressao() if hasattr(ctx, 'expressao') and ctx.expressao() else ctx.valor()
             symbol = self.symbol_table.lookup(ids_to_process[0].getText())
-            self.visit(ctx.expressao()) # No novo código, a atribuição é feita em visitAtribuicao
-            # O código de atribuição será gerado como um comando de atribuição separado
-            # Aqui, apenas garantimos que a variável está na tabela de símbolos.
-            # Para simplificar, vamos assumir que a gramática gera uma atribuição
-            name = ids_to_process[0].getText()
-            expr_type = self.get_expression_type(ctx.expressao())
+            self.visit(expr)
+
+            expr_ctx = expr
+            if isinstance(expr, JavythonParser.ValorContext):
+                if expr.INT():
+                    expr_type = 'int'
+                elif expr.REAL():
+                    expr_type = 'real'
+                else:
+                    expr_type = 'str'
+            else:
+                expr_type = self.get_expression_type(expr)
+
             if symbol.type == 'real' and expr_type == 'int':
                 self.code.append("    i2f")
+
             if symbol.type in ['int', 'bool']:
                 self.code.append(f"    istore {symbol.index}")
             elif symbol.type == 'real':
                 self.code.append(f"    fstore {symbol.index}")
-
-    # --- O RESTANTE DO CÓDIGO PERMANECE O MESMO ---
-    # (Copie o resto das funções do seu arquivo original para cá)
-    # ... (visitAddsubExpr, visitMultdivExpr, visitMetodo, etc.) ...
-    # Colei as funções restantes abaixo para garantir que tudo funcione.
+            else:
+                self.code.append(f"    astore {symbol.index}")
 
     def visitAddsubExpr(self, ctx: JavythonParser.AddsubExprContext):
         type_left = self.get_expression_type(ctx.expressao(0))
@@ -214,7 +209,8 @@ class JasminVisitor(JavythonVisitor):
         self.current_method_return_type = javython_return_type
 
         params_javython_types = [p.tipo().getText() for p in ctx.parametros().parametro()] if ctx.parametros() else []
-        function_symbol = Symbol(name=method_name, type=javython_return_type, params_types=params_javython_types)
+        function_symbol = Symbol(name=method_name, type=javython_return_type, params_types=params_javython_types,
+                                 is_global=True)
         self.symbol_table.scopes[0][function_symbol.name.lower()] = function_symbol
 
         return_type = type_map[javython_return_type]
@@ -225,16 +221,25 @@ class JasminVisitor(JavythonVisitor):
         self.code.append("    .limit stack 100\n    .limit locals 100")
 
         self.symbol_table.enter_scope()
-        self.symbol_table.var_index = 0
 
+        # *** CORREÇÃO: Alocar parâmetros PRIMEIRO ***
         if ctx.parametros():
             for p in ctx.parametros().parametro():
                 self.symbol_table.add_symbol(Symbol(p.ID().getText(), p.tipo().getText()))
 
+        # *** CORREÇÃO: Alocar I/O helpers DEPOIS dos parâmetros ***
+        self.scanner_var_index = self.symbol_table.var_index
+        self.symbol_table.var_index += 1
+        self.string_builder_var_index = self.symbol_table.var_index
+        self.symbol_table.var_index += 1
+        self.code.append(
+            f"    new java/util/Scanner\n    dup\n    getstatic java/lang/System/in Ljava/io/InputStream;\n    invokespecial java/util/Scanner/<init>(Ljava/io/InputStream;)V\n    astore {self.scanner_var_index}")
+
         self.visit(ctx.blocoMetodo())
 
-        if javython_return_type == 'void':
-            self.code.append("    return")
+        if not self.code[-1].strip().startswith(("ireturn", "freturn", "areturn", "return")):
+            if javython_return_type == 'void':
+                self.code.append("    return")
 
         self.code.append(".end method")
         self.symbol_table.exit_scope()
@@ -251,24 +256,30 @@ class JasminVisitor(JavythonVisitor):
         self.symbol_table.var_index += 1
         self.string_builder_var_index = self.symbol_table.var_index
         self.symbol_table.var_index += 1
-
         self.code.append(
-            "    new java/util/Scanner\n    dup\n    getstatic java/lang/System/in Ljava/io/InputStream;\n    invokespecial java/util/Scanner/<init>(Ljava/io/InputStream;)V")
-        self.code.append(f"   astore {self.scanner_var_index}")
+            f"    new java/util/Scanner\n    dup\n    getstatic java/lang/System/in Ljava/io/InputStream;\n    invokespecial java/util/Scanner/<init>(Ljava/io/InputStream;)V\n    astore {self.scanner_var_index}")
 
-        # As declarações do decIds do main são locais
-        if ctx.decIds():
-             for declaracao_ctx in ctx.decIds().declaracao():
-                 self.visit(declaracao_ctx)
-
-        for comando_ctx in ctx.comando():
-             self.visit(comando_ctx)
+        self.visitChildren(ctx)
 
         self.code.append("    return")
         self.code.append(".end method")
         self.symbol_table.exit_scope()
 
     def visitComando(self, ctx: JavythonParser.ComandoContext):
+        if ctx.RETURN():
+            if ctx.expressao():
+                self.visit(ctx.expressao())
+                expr_type = self.get_expression_type(ctx.expressao())
+                if expr_type in ['int', 'bool']:
+                    self.code.append("    ireturn")
+                elif expr_type == 'real':
+                    self.code.append("    freturn")
+                else:
+                    self.code.append("    areturn")
+            else:
+                self.code.append("    return")
+            return
+
         if isinstance(ctx.getChild(0), JavythonParser.ExpressaoContext):
             self.visit(ctx.expressao())
             expr_type = self.get_expression_type(ctx.expressao())
@@ -279,47 +290,46 @@ class JasminVisitor(JavythonVisitor):
 
     def visitIfElse(self, ctx: JavythonParser.IfElseContext):
         else_label, end_label = self.new_label(), self.new_label()
-        is_function_with_return = self.current_method_return_type != 'void'
         self.visit(ctx.expressao())
         self.code.append(f"    ifeq {else_label}")
-        self.visit(ctx.bloco()[0])
-        if is_function_with_return:
-            if not self.code[-1].strip().endswith("return"): self.code.append(f"    goto {end_label}")
-        else:
+        self.visit(ctx.bloco(0))
+
+        if not self.code[-1].strip().startswith(("goto", "return", "ireturn", "freturn")):
             self.code.append(f"    goto {end_label}")
+
         self.code.append(f"{else_label}:")
-        if len(ctx.bloco()) > 1: self.visit(ctx.bloco()[1])
+        if len(ctx.bloco()) > 1:
+            self.visit(ctx.bloco(1))
+
         self.code.append(f"{end_label}:")
         return None
 
     def visitIo(self, ctx: JavythonParser.IoContext):
         if ctx.PRINT():
-            self.code.append("    new java/lang/StringBuilder")
-            self.code.append("    dup")
-            self.code.append("    invokespecial java/lang/StringBuilder/<init>()V")
-            self.code.append(f"   astore {self.string_builder_var_index}")
-
-            for arg in ctx.argumentos().expressao():
-                self.code.append(f"   aload {self.string_builder_var_index}")
-
-                arg_type = self.get_expression_type(arg)
-                if arg_type == 'void':
-                    func_name = arg.ID().getText() if hasattr(arg, 'ID') else 'função'
-                    raise Exception(f"Erro Semântico: A {func_name} é do tipo 'void' e não pode ser usada em um print.")
-
-                self.visit(arg)
-                signature = type_map.get(arg_type, 'Ljava/lang/String;')
-                self.code.append(
-                    f"    invokevirtual java/lang/StringBuilder/append({signature})Ljava/lang/StringBuilder;")
-
-                self.code.append("    ldc \" \"")
-                self.code.append(
-                    "    invokevirtual java/lang/StringBuilder/append(Ljava/lang/String;)Ljava/lang/StringBuilder;")
-                self.code.append("    pop")
-
             self.code.append("    getstatic java/lang/System/out Ljava/io/PrintStream;")
-            self.code.append(f"   aload {self.string_builder_var_index}")
-            self.code.append("    invokevirtual java/lang/StringBuilder/toString()Ljava/lang/String;")
+
+            args = ctx.argumentos().expressao()
+            if len(args) == 1 and isinstance(args[0], JavythonParser.ValorExprContext) and args[0].valor().STRING():
+                self.visit(args[0])
+            else:
+                self.code.append("    new java/lang/StringBuilder")
+                self.code.append("    dup")
+                self.code.append("    invokespecial java/lang/StringBuilder/<init>()V")
+
+                for arg in args:
+                    self.visit(arg)
+                    arg_type = self.get_expression_type(arg)
+                    if arg_type == 'void':
+                        func_name = arg.ID().getText() if hasattr(arg, 'ID') else 'função'
+                        raise Exception(
+                            f"Erro Semântico: A {func_name} é do tipo 'void' e não pode ser usada em um print.")
+
+                    signature = type_map.get(arg_type, 'Ljava/lang/String;')
+                    self.code.append(
+                        f"    invokevirtual java/lang/StringBuilder/append({signature})Ljava/lang/StringBuilder;")
+
+                self.code.append("    invokevirtual java/lang/StringBuilder/toString()Ljava/lang/String;")
+
             self.code.append("    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V")
 
         elif ctx.INPUT():
@@ -330,7 +340,6 @@ class JasminVisitor(JavythonVisitor):
                     self.code.append(f"   aload {self.scanner_var_index}")
                     if symbol.type == 'int':
                         self.code.append("    invokevirtual java/util/Scanner/nextInt()I")
-                        # A atribuição para a variável (seja global ou local)
                         if symbol.is_global:
                             self.code.append(f"   putstatic {self.program_name}/{symbol.name} I")
                         else:
@@ -357,41 +366,37 @@ class JasminVisitor(JavythonVisitor):
         signature = f"({''.join(param_signatures)}){return_signature}"
         self.code.append(f"    invokestatic {self.program_name}/{method_name}{signature}")
 
-
     def visitRelacionalExpr(self, ctx: JavythonParser.RelacionalExprContext):
         left_type = self.get_expression_type(ctx.expressao(0))
         right_type = self.get_expression_type(ctx.expressao(1))
+        is_float_op = left_type == 'real' or right_type == 'real'
 
         self.visit(ctx.expressao(0))
-        self.visit(ctx.expressao(1))
+        if left_type == 'int' and is_float_op:
+            self.code.append("    i2f")
 
-        true_label = self.new_label()
-        end_label = self.new_label()
+        self.visit(ctx.expressao(1))
+        if right_type == 'int' and is_float_op:
+            self.code.append("    i2f")
+
+        true_label, end_label = self.new_label(), self.new_label()
         op = ctx.getChild(1).getSymbol().type
 
-        if left_type in ['int', 'bool'] and right_type in ['int', 'bool']:
-            op_map = {
-                JavythonParser.EQ: 'if_icmpeq', JavythonParser.NEQ: 'if_icmpne',
-                JavythonParser.GT: 'if_icmpgt', JavythonParser.LT: 'if_icmplt',
-                JavythonParser.GE: 'if_icmpge', JavythonParser.LE: 'if_icmple'
-            }
-            if op in op_map:
-                self.code.append(f"    {op_map[op]} {true_label}")
-        elif left_type == 'str' or right_type == 'str':
-            op_map = { JavythonParser.EQ: 'if_acmpeq', JavythonParser.NEQ: 'if_acmpne' }
-            if op in op_map:
-                self.code.append(f"    {op_map[op]} {true_label}")
-            else:
-                raise Exception(f"Erro Semântico: Operador relacional não suportado para strings.")
-        elif left_type == 'real' or right_type == 'real':
+        op_map = {}
+        if is_float_op:
             self.code.append("    fcmpl")
-            op_map = {
-                JavythonParser.EQ: 'ifeq', JavythonParser.NEQ: 'ifne',
-                JavythonParser.GT: 'ifgt', JavythonParser.LT: 'iflt',
-                JavythonParser.GE: 'ifge', JavythonParser.LE: 'ifle'
-            }
-            if op in op_map:
-                self.code.append(f"    {op_map[op]} {true_label}")
+            op_map = {JavythonParser.EQ: 'ifeq', JavythonParser.NEQ: 'ifne', JavythonParser.GT: 'ifgt',
+                      JavythonParser.LT: 'iflt', JavythonParser.GE: 'ifge', JavythonParser.LE: 'ifle'}
+        elif left_type == 'str':
+            op_map = {JavythonParser.EQ: 'if_acmpeq', JavythonParser.NEQ: 'if_acmpne'}
+        else:
+            op_map = {JavythonParser.EQ: 'if_icmpeq', JavythonParser.NEQ: 'if_icmpne', JavythonParser.GT: 'if_icmpgt',
+                      JavythonParser.LT: 'if_icmplt', JavythonParser.GE: 'if_icmpge', JavythonParser.LE: 'if_icmple'}
+
+        if op in op_map:
+            self.code.append(f"    {op_map[op]} {true_label}")
+        else:
+            raise Exception(f"Erro Semântico: Operador relacional não suportado para o tipo.")
 
         self.code.append("    iconst_0")
         self.code.append(f"    goto {end_label}")
@@ -406,3 +411,7 @@ class JasminVisitor(JavythonVisitor):
             self.code.append(f"    ldc {ctx.REAL().getText()}")
         elif ctx.STRING():
             self.code.append(f"    ldc {ctx.STRING().getText()}")
+        elif ctx.TRUE():
+            self.code.append(f"    iconst_1")
+        elif ctx.FALSE():
+            self.code.append(f"    iconst_0")
