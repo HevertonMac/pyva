@@ -1,5 +1,5 @@
-program: Exemplo1;
-decIds:
+prOgram: Exemplo1;
+dECIds:
 i : int;
 
 int fatorial (int fat){
@@ -7,7 +7,7 @@ if (fat > 1){
 print (fat);
 return fat * fatorial(fat - 1);
 } else {
-return 1;
+retUrn 1;
 }
 }
 
