@@ -61,60 +61,51 @@ class SemanticVisitor(JavythonVisitor):
             return 'bool'
         return None # Caso não seja nenhum dos tipos conhecidos
 
-    def visitDeclaracao(self, ctx: JavythonParser.DeclaracaoContext):
-        # Caso: ID ASSIGN valor (inferência de tipo, tratado como constante)
-        if ctx.ID() and not ctx.listaIds():
-            const_name = ctx.ID().getText()
-            line = ctx.ID().symbol.line
-            valor_ctx = ctx.valor()
-            var_type = self.getValorType(valor_ctx) # Usando nosso helper
-            symbol = Symbol(const_name, var_type, is_constant=True)
-            self.symbol_table.add_symbol(symbol, line)
+# Versão CORRETA e DEFINITIVA de visitDeclaracao
 
-            # Inferir tipo do valor
-            var_type = None
-            if valor_ctx.INT():
-                var_type = 'int'
-            elif valor_ctx.REAL():
-                var_type = 'real'
-            elif valor_ctx.STRING():
-                var_type = 'str'
-            elif valor_ctx.TRUE() or valor_ctx.FALSE():
-                var_type = 'bool'
+def visitDeclaracao(self, ctx: JavythonParser.DeclaracaoContext):
+    # Caso: ID ASSIGN valor (constante com tipo inferido)
+    if ctx.ID() and not ctx.listaIds():
+        const_name = ctx.ID().getText()
+        line = ctx.ID().symbol.line
+        valor_ctx = ctx.valor()
+        
+        # 1. Inferir o tipo UMA ÚNICA VEZ usando o método auxiliar.
+        const_type = self.getValorType(valor_ctx)
+        
+        # 2. Criar e adicionar o símbolo UMA ÚNICA VEZ.
+        symbol = Symbol(const_name, const_type, is_constant=True)
+        self.symbol_table.add_symbol(symbol, line)
 
-            symbol = Symbol(const_name, var_type, is_constant=True)
+    # Caso: listaIds COLON tipo (ASSIGN valor)? (variáveis)
+    elif ctx.listaIds():
+        var_type_declarado = ctx.tipo().getText().lower()
+
+        if ctx.ASSIGN() and len(ctx.listaIds().ID()) > 1:
+            raise Exception(f"Erro Semântico na Linha {ctx.start.line}: A inicialização só é permitida para uma variável por declaração.")
+
+        # Se houver atribuição, verifica a compatibilidade de tipos.
+        if ctx.ASSIGN():
+            valor_atribuido_ctx = ctx.valor()
+            tipo_valor_atribuido = self.getValorType(valor_atribuido_ctx)
+            
+            if var_type_declarado != tipo_valor_atribuido:
+                line = ctx.start.line
+                raise Exception(
+                    f"Erro Semântico na Linha {line}: Incompatibilidade de tipos. "
+                    f"A variável '{ctx.listaIds().ID()[0].getText()}' do tipo '{var_type_declarado}' "
+                    f"não pode ser inicializada com um valor do tipo '{tipo_valor_atribuido}'."
+                )
+
+        # Adiciona as variáveis (sem valor inicial, pois isso é feito na atribuição)
+        for var_id in ctx.listaIds().ID():
+            var_name = var_id.getText()
+            line = var_id.symbol.line
+            symbol = Symbol(var_name, var_type_declarado, is_constant=False)
             self.symbol_table.add_symbol(symbol, line)
             
-            pass
-
-        # Caso: listaIds COLON tipo (ASSIGN valor)? (variáveis)
-        elif ctx.listaIds():
-            var_type_declarado = ctx.tipo().getText().lower() # Ex: 'int'
-
-            if ctx.ASSIGN() and len(ctx.listaIds().ID()) > 1:
-                raise Exception(f"Erro Semântico na Linha {ctx.start.line}: A inicialização só é permitida para uma variável por declaração.")
-
-            # A lógica de verificação de tipos que faltava!
-            if ctx.ASSIGN():
-                valor_atribuido_ctx = ctx.valor()
-                tipo_valor_atribuido = self.getValorType(valor_atribuido_ctx) # Ex: 'str'
-                
-                # A COMPARAÇÃO CRÍTICA
-                if var_type_declarado != tipo_valor_atribuido:
-                    line = ctx.start.line
-                    raise Exception(
-                        f"Erro Semântico na Linha {line}: Incompatibilidade de tipos. "
-                        f"A variável '{ctx.listaIds().ID()[0].getText()}' é do tipo '{var_type_declarado}', "
-                        f"mas está sendo inicializada com um valor do tipo '{tipo_valor_atribuido}'."
-                    )
-
-            for var_id in ctx.listaIds().ID():
-                var_name = var_id.getText()
-                line = var_id.symbol.line
-                symbol = Symbol(var_name, var_type_declarado, is_constant=False)
-                self.symbol_table.add_symbol(symbol, line)
-            
-            pass
+    # Impede a visita dupla dos filhos, como já havíamos corrigido.
+    return None
                 
 
     def visitAtribuicao(self, ctx: JavythonParser.AtribuicaoContext):
