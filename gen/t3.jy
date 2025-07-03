@@ -8,7 +8,6 @@ main:
   decIds:
     contador: int;
     i: int;
-    LIMITE = 10;
 
   print("--- Teste com WHILE ---");
   !boleano;

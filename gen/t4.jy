@@ -10,8 +10,9 @@ main:
     texto1, texto2: str;
 
   // Operações com inteiros
+  print("oi");
   a = 10;
-  b = 3;
+  b = 5;
   print("Soma: ", a + b);
   print("Divisao inteira: ", a / b);
 

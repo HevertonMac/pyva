@@ -20,7 +20,7 @@ main:
 
  for(i = 0; i<N; i--){
   a10 = 10;
-  //print ("Programa Fatorial. Digite o valor?");
+  print ("Programa Fatorial. Digite o valor?");
   input (numero);
   resultado = fatorial(numero);
 
