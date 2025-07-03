@@ -41,7 +41,6 @@ L2:
     fload 0
     fload 1
     fadd
-    i2f
     ldc 2.0
     fdiv
     fstore 2
@@ -60,7 +59,6 @@ L2:
     fload 0
     fload 1
     fadd
-    i2f
     ldc 2.0
     fdiv
     fstore 2

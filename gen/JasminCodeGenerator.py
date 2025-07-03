@@ -48,7 +48,11 @@ class JasminVisitor(JavythonVisitor):
         self.label_count += 1
         return f"L{self.label_count}"
 
+        # Em gen/JasminCodeGenerator.py, dentro da classe JasminVisitor
+
     def get_expression_type(self, ctx: JavythonParser.ExpressaoContext):
+        if isinstance(ctx, JavythonParser.ParenExprContext):
+            return self.get_expression_type(ctx.expressao())
         if isinstance(ctx, JavythonParser.IdExprContext):
             symbol = self.symbol_table.lookup(ctx.ID().getText())
             return symbol.type if symbol else 'void'
