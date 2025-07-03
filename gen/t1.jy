@@ -15,14 +15,18 @@ main:
     numero: int;
     resultado: int;
     A10: int;
-    N: int;
+    n: int;
 
- n = -2;
- for(i = 0; i<N; i--){
+
+ print("go");
+ n = 2;
+ for(i = 0; i<N; i++){
   a10 = 10;
   print ("Programa Fatorial. Digite o valor?");
   input (numero);
   resultado = fatorial(numero);
+  print(i);
+  print(n);
 
   print ("O fatorial de ", numero, " eh: ", resultado);
 }

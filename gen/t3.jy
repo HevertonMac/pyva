@@ -18,6 +18,7 @@ main:
   }
 
   print("--- Teste com FOR e IF-ELSE ---");
+  Limite = 10;
   for (i = 0; i < LIMITE; i = i + 1) {
     if (i == 5) {
       print("Estamos na metade!");

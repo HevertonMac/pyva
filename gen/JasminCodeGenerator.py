@@ -314,6 +314,7 @@ class JasminVisitor(JavythonVisitor):
         self.visit(ctx.bloco())
 
         update_expr = None
+        # A lógica para encontrar a expressão de atualização é mantida por enquanto
         if len(ctx.expressao()) > 1:
             update_expr = ctx.expressao(1)
         elif len(ctx.atribuicao()) > 1:
@@ -321,9 +322,13 @@ class JasminVisitor(JavythonVisitor):
 
         if update_expr:
             self.visit(update_expr)
-            # Se a expressão de atualização deixa um valor na pilha (como i--), o removemos.
-            if self.get_expression_type(update_expr) != 'void':
-                self.code.append("    pop")
+            # --- CORREÇÃO APLICADA AQUI ---
+            # Uma atribuição (AtribuicaoContext) não deixa um valor na pilha.
+            # Só adicionamos 'pop' se a atualização for uma EXPRESSÃO (ExpressaoContext)
+            # que retorna um valor.
+            if isinstance(update_expr, JavythonParser.ExpressaoContext):
+                if self.get_expression_type(update_expr) != 'void':
+                    self.code.append("    pop")
 
         self.code.append(f"    goto {start_label}")
         self.code.append(f"{end_label}:")
@@ -465,3 +470,22 @@ class JasminVisitor(JavythonVisitor):
             self.code.append(f"    iconst_1")
         elif ctx.FALSE():
             self.code.append(f"    iconst_0")
+
+    def visitWhileLoop(self, ctx: JavythonParser.WhileLoopContext):
+        start_label = self.new_label()
+        end_label = self.new_label()
+
+        self.code.append(f"{start_label}:")
+        # Visita a expressão condicional do while
+        self.visit(ctx.expressao())
+        # Se a condição for falsa (igual a 0), salta para o final do laço
+        self.code.append(f"    ifeq {end_label}")
+
+        # Visita o bloco de código dentro do while
+        self.visit(ctx.bloco())
+        # Volta para o início do laço para reavaliar a condição
+        self.code.append(f"    goto {start_label}")
+
+        # Rótulo de fim do laço
+        self.code.append(f"{end_label}:")
+        return None
