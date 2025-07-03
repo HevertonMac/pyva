@@ -48,63 +48,74 @@ class SemanticVisitor(JavythonVisitor):
     def __init__(self):
         self.symbol_table = SymbolTable()
 
-    def visitMetodo(self, ctx: JavythonParser.MetodoContext):
-        method_name = ctx.ID().getText()
-        return_type = ctx.tipo().getText() if ctx.tipo() else 'void'
-        line = ctx.ID().symbol.line
-
-        params_types = []
-        num_params = 0
-        if ctx.parametros():
-            num_params = len(ctx.parametros().parametro())
-            for p in ctx.parametros().parametro():
-                params_types.append(p.tipo().getText())
-
-        # Adiciona a função ao escopo PAI (antes de entrar no novo escopo)
-        method_symbol = Symbol(method_name, return_type, params_count=num_params, params_types=params_types)
-        self.symbol_table.add_symbol(method_symbol, line)
-
-        # Entra no escopo da função
-        self.symbol_table.enter_scope()
-
-        # Adiciona os parâmetros ao NOVO escopo
-        if ctx.parametros():
-            for param in ctx.parametros().parametro():
-                param_name = param.ID().getText()
-                param_type = param.tipo().getText()
-                param_line = param.ID().symbol.line
-                param_symbol = Symbol(param_name, param_type)
-                self.symbol_table.add_symbol(param_symbol, param_line)
-
-        # Visita o corpo da função
-        self.visit(ctx.blocoMetodo())
-
-        # Sai do escopo da função
-        self.symbol_table.exit_scope()
-        return None  # Evita que os filhos sejam visitados novamente
-
-    def visitBlocoMetodo(self, ctx: JavythonParser.BlocoMetodoContext):
-        # Apenas visita os filhos (decIds e comandos)
-        return self.visitChildren(ctx)
+    
+    def getValorType(self, valor_ctx: JavythonParser.ValorContext):
+        """Analisa um contexto 'valor' e retorna seu tipo como string."""
+        if valor_ctx.INT():
+            return 'int'
+        if valor_ctx.REAL():
+            return 'real'
+        if valor_ctx.STRING():
+            return 'str'
+        if valor_ctx.TRUE() or valor_ctx.FALSE():
+            return 'bool'
+        return None # Caso não seja nenhum dos tipos conhecidos
 
     def visitDeclaracao(self, ctx: JavythonParser.DeclaracaoContext):
-        # Declaração de constante
-        if ctx.ID():
-            var_name = ctx.ID().getText()
+        # Caso: ID ASSIGN valor (inferência de tipo, tratado como constante)
+        if ctx.ID() and not ctx.listaIds():
+            const_name = ctx.ID().getText()
             line = ctx.ID().symbol.line
-            # Inferir tipo (simplificado)
-            var_type = 'int' if ctx.valor().INT() else 'real' if ctx.valor().REAL() else 'str'
-            symbol = Symbol(var_name, var_type, is_constant=True)
+            valor_ctx = ctx.valor()
+            var_type = self.getValorType(valor_ctx) # Usando nosso helper
+            symbol = Symbol(const_name, var_type, is_constant=True)
             self.symbol_table.add_symbol(symbol, line)
-        # Declaração de variável
+
+            # Inferir tipo do valor
+            var_type = None
+            if valor_ctx.INT():
+                var_type = 'int'
+            elif valor_ctx.REAL():
+                var_type = 'real'
+            elif valor_ctx.STRING():
+                var_type = 'str'
+            elif valor_ctx.TRUE() or valor_ctx.FALSE():
+                var_type = 'bool'
+
+            symbol = Symbol(const_name, var_type, is_constant=True)
+            self.symbol_table.add_symbol(symbol, line)
+            
+            pass
+
+        # Caso: listaIds COLON tipo (ASSIGN valor)? (variáveis)
         elif ctx.listaIds():
-            var_type = ctx.tipo().getText()
+            var_type_declarado = ctx.tipo().getText().lower() # Ex: 'int'
+
+            if ctx.ASSIGN() and len(ctx.listaIds().ID()) > 1:
+                raise Exception(f"Erro Semântico na Linha {ctx.start.line}: A inicialização só é permitida para uma variável por declaração.")
+
+            # A lógica de verificação de tipos que faltava!
+            if ctx.ASSIGN():
+                valor_atribuido_ctx = ctx.valor()
+                tipo_valor_atribuido = self.getValorType(valor_atribuido_ctx) # Ex: 'str'
+                
+                # A COMPARAÇÃO CRÍTICA
+                if var_type_declarado != tipo_valor_atribuido:
+                    line = ctx.start.line
+                    raise Exception(
+                        f"Erro Semântico na Linha {line}: Incompatibilidade de tipos. "
+                        f"A variável '{ctx.listaIds().ID()[0].getText()}' é do tipo '{var_type_declarado}', "
+                        f"mas está sendo inicializada com um valor do tipo '{tipo_valor_atribuido}'."
+                    )
+
             for var_id in ctx.listaIds().ID():
                 var_name = var_id.getText()
                 line = var_id.symbol.line
-                symbol = Symbol(var_name, var_type)
+                symbol = Symbol(var_name, var_type_declarado, is_constant=False)
                 self.symbol_table.add_symbol(symbol, line)
-        return self.visitChildren(ctx)
+            
+            pass
+                
 
     def visitAtribuicao(self, ctx: JavythonParser.AtribuicaoContext):
         var_name = ctx.ID().getText()
@@ -113,16 +124,96 @@ class SemanticVisitor(JavythonVisitor):
         if symbol is None:
             raise Exception(f"Erro Semântico na Linha {line}: Variável '{var_name}' não declarada.")
         if symbol.is_constant:
+            raise Exception(f"Erro Semântico na Linha {line}: Não é possível atribuir um novo valor à constante '{var_name}'.")
+
+        # Verifica o tipo da expressão que está sendo atribuída
+        tipo_expressao = self.visit(ctx.expressao())
+        
+        if symbol.type != tipo_expressao:
+            raise Exception(
+                f"Erro Semântico na Linha {line}: Incompatibilidade de tipos. "
+                f"A variável '{var_name}' é do tipo '{symbol.type}', "
+                f"mas está recebendo uma expressão do tipo '{tipo_expressao}'."
+            )
+            
+        return None
+
+    def visitMetodo(self, ctx: JavythonParser.MetodoContext):
+        method_name = ctx.ID().getText()
+        return_type = ctx.tipo().getText() if ctx.tipo() else ctx.VOID().getText()
+        line = ctx.ID().symbol.line
+        num_params = len(ctx.parametros().parametro()) if ctx.parametros() else 0
+
+        # Adiciona o símbolo da função ao escopo pai (global) de forma case-insensitive
+        symbol = Symbol(method_name, return_type, params_count=num_params)
+        self.symbol_table.add_symbol(symbol, line)
+
+        self.symbol_table.enter_scope()
+        if ctx.parametros():
+            for param in ctx.parametros().parametro():
+                param_type = param.tipo().getText()
+                param_name = param.ID().getText()
+                line = param.ID().symbol.line
+                param_symbol = Symbol(param_name, param_type)
+                self.symbol_table.add_symbol(param_symbol, line)
+
+        self.visitChildren(ctx.blocoMetodo())
+        self.symbol_table.exit_scope()
+
+    def visitChamadaMetodo(self, ctx: JavythonParser.ChamadaMetodoContext):
+        method_name = ctx.ID().getText()
+        line = ctx.start.line
+        method_symbol = self.symbol_table.lookup_symbol(method_name)
+
+        if method_symbol is None:
+            raise Exception(f"Erro Semântico na Linha {line}: Método '{method_name}' não declarado.")
+
+        if method_symbol.params_count is None:
+            raise Exception(f"Erro Semântico na Linha {line}: '{method_name}' não é uma função.")
+
+        num_args = len(ctx.argumentos().expressao()) if ctx.argumentos() else 0
+
+        if num_args != method_symbol.params_count:
             raise Exception(
                 f"Erro Semântico na Linha {line}: Não é possível alterar o valor da constante '{var_name}'.")
         return self.visitChildren(ctx)
+    
+    def visitValorExpr(self, ctx: JavythonParser.ValorExprContext):
+        
+        return self.getValorType(ctx.valor())
 
     def visitIdExpr(self, ctx: JavythonParser.IdExprContext):
         var_name = ctx.ID().getText()
-        if self.symbol_table.lookup_symbol(var_name) is None:
+        symbol = self.symbol_table.lookup_symbol(var_name)
+        if symbol is None:
             line = ctx.start.line
             raise Exception(f"Erro Semântico na Linha {line}: Símbolo '{var_name}' não declarado.")
-        return self.visitChildren(ctx)
+        # Retorna o tipo do símbolo encontrado na tabela
+        return symbol.type
+    
+    def visitParenExpr(self, ctx: JavythonParser.ParenExprContext):
+        # O tipo de uma expressão entre parênteses é o tipo da expressão interna
+        return self.visit(ctx.expressao())
+    
+    def visitAddsubExpr(self, ctx: JavythonParser.AddsubExprContext):
+        # 1. Visita recursivamente os filhos para obter seus tipos
+        tipo_esq = self.visit(ctx.left)
+        tipo_dir = self.visit(ctx.right)
+        line = ctx.start.line
+
+        # [cite_start]2. Verifica a regra semântica: '+' e '-' aplicam-se a int e real [cite: 98]
+        tipos_validos = ['int', 'real']
+        if tipo_esq not in tipos_validos or tipo_dir not in tipos_validos:
+            raise Exception(
+                f"Erro Semântico na Linha {line}: Operador '{ctx.op.text}' "
+                f"não pode ser aplicado aos tipos '{tipo_esq}' e '{tipo_dir}'."
+            )
+        
+        # 3. Determina o tipo do resultado (promoção de tipo)
+        if tipo_esq == 'real' or tipo_dir == 'real':
+            return 'real'
+        else:
+            return 'int'
 
 
 class JavythonErrorListener(ErrorListener):

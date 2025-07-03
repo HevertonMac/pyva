@@ -1,4 +1,4 @@
-# Generated from C:/Users/hever/OneDrive/Desktop/Trab_Final/Javython.g4 by ANTLR 4.13.2
+# Generated from C:/Users/gutop/Downloads/Trab_Final +correções/Trab_Final/Javython.g4 by ANTLR 4.13.2
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -10,6 +10,7 @@ else:
 
 def serializedATN():
     return [
+<<<<<<< HEAD
         4,1,48,266,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,
@@ -105,6 +106,108 @@ def serializedATN():
         1,0,0,0,262,260,1,0,0,0,262,263,1,0,0,0,263,41,1,0,0,0,264,262,1,
         0,0,0,27,47,52,62,69,74,82,87,92,97,107,120,127,132,139,160,168,
         177,188,192,197,205,213,222,231,244,260,262
+=======
+        4,1,44,278,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
+        2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,1,0,
+        1,0,1,0,1,0,1,0,1,0,5,0,47,8,0,10,0,12,0,50,9,0,1,0,1,0,1,0,1,1,
+        1,1,1,1,1,1,1,1,4,1,60,8,1,11,1,12,1,61,1,2,1,2,1,2,1,2,1,2,3,2,
+        69,8,2,1,2,1,2,1,2,3,2,74,8,2,1,3,1,3,1,3,5,3,79,8,3,10,3,12,3,82,
+        9,3,1,4,1,4,1,5,1,5,1,6,1,6,3,6,90,8,6,1,6,1,6,1,6,3,6,95,8,6,1,
+        6,1,6,1,6,1,7,1,7,1,7,5,7,103,8,7,10,7,12,7,106,9,7,1,8,1,8,1,8,
+        1,9,1,9,3,9,113,8,9,1,9,5,9,116,8,9,10,9,12,9,119,9,9,1,9,1,9,1,
+        10,1,10,1,10,3,10,126,8,10,1,10,5,10,129,8,10,10,10,12,10,132,9,
+        10,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,
+        11,1,11,1,11,1,11,1,11,3,11,151,8,11,1,11,1,11,1,11,3,11,156,8,11,
+        1,12,1,12,1,12,1,12,1,13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,
+        1,13,3,13,172,8,13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,
+        1,13,1,13,5,13,185,8,13,10,13,12,13,188,9,13,1,14,1,14,1,14,3,14,
+        193,8,14,1,14,1,14,1,15,1,15,1,15,5,15,200,8,15,10,15,12,15,203,
+        9,15,1,16,1,16,1,16,1,16,1,16,1,16,5,16,211,8,16,10,16,12,16,214,
+        9,16,1,16,1,16,1,16,1,16,5,16,220,8,16,10,16,12,16,223,9,16,1,16,
+        3,16,226,8,16,1,17,1,17,1,17,1,17,1,17,1,17,5,17,234,8,17,10,17,
+        12,17,237,9,17,1,17,1,17,1,18,1,18,1,18,3,18,244,8,18,1,18,1,18,
+        3,18,248,8,18,1,18,1,18,1,18,3,18,253,8,18,1,18,1,18,1,18,5,18,258,
+        8,18,10,18,12,18,261,9,18,1,18,1,18,1,19,1,19,1,19,3,19,268,8,19,
+        1,19,1,19,1,19,1,19,1,19,1,19,3,19,276,8,19,1,19,0,1,26,20,0,2,4,
+        6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,0,7,1,0,14,17,2,
+        0,18,19,39,41,2,0,21,21,31,31,1,0,22,23,1,0,20,21,1,0,27,30,1,0,
+        24,25,299,0,40,1,0,0,0,2,54,1,0,0,0,4,73,1,0,0,0,6,75,1,0,0,0,8,
+        83,1,0,0,0,10,85,1,0,0,0,12,89,1,0,0,0,14,99,1,0,0,0,16,107,1,0,
+        0,0,18,110,1,0,0,0,20,122,1,0,0,0,22,155,1,0,0,0,24,157,1,0,0,0,
+        26,171,1,0,0,0,28,189,1,0,0,0,30,196,1,0,0,0,32,204,1,0,0,0,34,227,
+        1,0,0,0,36,240,1,0,0,0,38,275,1,0,0,0,40,41,5,2,0,0,41,42,5,36,0,
+        0,42,43,5,42,0,0,43,44,5,37,0,0,44,48,3,2,1,0,45,47,3,12,6,0,46,
+        45,1,0,0,0,47,50,1,0,0,0,48,46,1,0,0,0,48,49,1,0,0,0,49,51,1,0,0,
+        0,50,48,1,0,0,0,51,52,3,20,10,0,52,53,5,4,0,0,53,1,1,0,0,0,54,55,
+        5,1,0,0,55,59,5,36,0,0,56,57,3,4,2,0,57,58,5,37,0,0,58,60,1,0,0,
+        0,59,56,1,0,0,0,60,61,1,0,0,0,61,59,1,0,0,0,61,62,1,0,0,0,62,3,1,
+        0,0,0,63,64,3,6,3,0,64,65,5,36,0,0,65,68,3,8,4,0,66,67,5,26,0,0,
+        67,69,3,10,5,0,68,66,1,0,0,0,68,69,1,0,0,0,69,74,1,0,0,0,70,71,5,
+        42,0,0,71,72,5,26,0,0,72,74,3,10,5,0,73,63,1,0,0,0,73,70,1,0,0,0,
+        74,5,1,0,0,0,75,80,5,42,0,0,76,77,5,38,0,0,77,79,5,42,0,0,78,76,
+        1,0,0,0,79,82,1,0,0,0,80,78,1,0,0,0,80,81,1,0,0,0,81,7,1,0,0,0,82,
+        80,1,0,0,0,83,84,7,0,0,0,84,9,1,0,0,0,85,86,7,1,0,0,86,11,1,0,0,
+        0,87,90,3,8,4,0,88,90,5,13,0,0,89,87,1,0,0,0,89,88,1,0,0,0,90,91,
+        1,0,0,0,91,92,5,42,0,0,92,94,5,32,0,0,93,95,3,14,7,0,94,93,1,0,0,
+        0,94,95,1,0,0,0,95,96,1,0,0,0,96,97,5,33,0,0,97,98,3,18,9,0,98,13,
+        1,0,0,0,99,104,3,16,8,0,100,101,5,38,0,0,101,103,3,16,8,0,102,100,
+        1,0,0,0,103,106,1,0,0,0,104,102,1,0,0,0,104,105,1,0,0,0,105,15,1,
+        0,0,0,106,104,1,0,0,0,107,108,3,8,4,0,108,109,5,42,0,0,109,17,1,
+        0,0,0,110,112,5,34,0,0,111,113,3,2,1,0,112,111,1,0,0,0,112,113,1,
+        0,0,0,113,117,1,0,0,0,114,116,3,22,11,0,115,114,1,0,0,0,116,119,
+        1,0,0,0,117,115,1,0,0,0,117,118,1,0,0,0,118,120,1,0,0,0,119,117,
+        1,0,0,0,120,121,5,35,0,0,121,19,1,0,0,0,122,123,5,3,0,0,123,125,
+        5,36,0,0,124,126,3,2,1,0,125,124,1,0,0,0,125,126,1,0,0,0,126,130,
+        1,0,0,0,127,129,3,22,11,0,128,127,1,0,0,0,129,132,1,0,0,0,130,128,
+        1,0,0,0,130,131,1,0,0,0,131,21,1,0,0,0,132,130,1,0,0,0,133,134,3,
+        24,12,0,134,135,5,37,0,0,135,156,1,0,0,0,136,137,3,28,14,0,137,138,
+        5,37,0,0,138,156,1,0,0,0,139,140,3,26,13,0,140,141,5,37,0,0,141,
+        156,1,0,0,0,142,143,3,38,19,0,143,144,5,37,0,0,144,156,1,0,0,0,145,
+        156,3,32,16,0,146,156,3,34,17,0,147,156,3,36,18,0,148,150,5,5,0,
+        0,149,151,3,26,13,0,150,149,1,0,0,0,150,151,1,0,0,0,151,152,1,0,
+        0,0,152,156,5,37,0,0,153,154,5,12,0,0,154,156,5,37,0,0,155,133,1,
+        0,0,0,155,136,1,0,0,0,155,139,1,0,0,0,155,142,1,0,0,0,155,145,1,
+        0,0,0,155,146,1,0,0,0,155,147,1,0,0,0,155,148,1,0,0,0,155,153,1,
+        0,0,0,156,23,1,0,0,0,157,158,5,42,0,0,158,159,5,26,0,0,159,160,3,
+        26,13,0,160,25,1,0,0,0,161,162,6,13,-1,0,162,163,7,2,0,0,163,172,
+        3,26,13,9,164,172,3,28,14,0,165,172,5,42,0,0,166,172,3,10,5,0,167,
+        168,5,32,0,0,168,169,3,26,13,0,169,170,5,33,0,0,170,172,1,0,0,0,
+        171,161,1,0,0,0,171,164,1,0,0,0,171,165,1,0,0,0,171,166,1,0,0,0,
+        171,167,1,0,0,0,172,186,1,0,0,0,173,174,10,4,0,0,174,175,7,3,0,0,
+        175,185,3,26,13,5,176,177,10,3,0,0,177,178,7,4,0,0,178,185,3,26,
+        13,4,179,180,10,2,0,0,180,181,7,5,0,0,181,185,3,26,13,3,182,183,
+        10,1,0,0,183,185,7,6,0,0,184,173,1,0,0,0,184,176,1,0,0,0,184,179,
+        1,0,0,0,184,182,1,0,0,0,185,188,1,0,0,0,186,184,1,0,0,0,186,187,
+        1,0,0,0,187,27,1,0,0,0,188,186,1,0,0,0,189,190,5,42,0,0,190,192,
+        5,32,0,0,191,193,3,30,15,0,192,191,1,0,0,0,192,193,1,0,0,0,193,194,
+        1,0,0,0,194,195,5,33,0,0,195,29,1,0,0,0,196,201,3,26,13,0,197,198,
+        5,38,0,0,198,200,3,26,13,0,199,197,1,0,0,0,200,203,1,0,0,0,201,199,
+        1,0,0,0,201,202,1,0,0,0,202,31,1,0,0,0,203,201,1,0,0,0,204,205,5,
+        8,0,0,205,206,5,32,0,0,206,207,3,26,13,0,207,208,5,33,0,0,208,212,
+        5,34,0,0,209,211,3,22,11,0,210,209,1,0,0,0,211,214,1,0,0,0,212,210,
+        1,0,0,0,212,213,1,0,0,0,213,215,1,0,0,0,214,212,1,0,0,0,215,225,
+        5,35,0,0,216,217,5,9,0,0,217,221,5,34,0,0,218,220,3,22,11,0,219,
+        218,1,0,0,0,220,223,1,0,0,0,221,219,1,0,0,0,221,222,1,0,0,0,222,
+        224,1,0,0,0,223,221,1,0,0,0,224,226,5,35,0,0,225,216,1,0,0,0,225,
+        226,1,0,0,0,226,33,1,0,0,0,227,228,5,10,0,0,228,229,5,32,0,0,229,
+        230,3,26,13,0,230,231,5,33,0,0,231,235,5,34,0,0,232,234,3,22,11,
+        0,233,232,1,0,0,0,234,237,1,0,0,0,235,233,1,0,0,0,235,236,1,0,0,
+        0,236,238,1,0,0,0,237,235,1,0,0,0,238,239,5,35,0,0,239,35,1,0,0,
+        0,240,241,5,11,0,0,241,243,5,32,0,0,242,244,3,24,12,0,243,242,1,
+        0,0,0,243,244,1,0,0,0,244,245,1,0,0,0,245,247,5,37,0,0,246,248,3,
+        26,13,0,247,246,1,0,0,0,247,248,1,0,0,0,248,249,1,0,0,0,249,252,
+        5,37,0,0,250,253,3,26,13,0,251,253,3,24,12,0,252,250,1,0,0,0,252,
+        251,1,0,0,0,252,253,1,0,0,0,253,254,1,0,0,0,254,255,5,33,0,0,255,
+        259,5,34,0,0,256,258,3,22,11,0,257,256,1,0,0,0,258,261,1,0,0,0,259,
+        257,1,0,0,0,259,260,1,0,0,0,260,262,1,0,0,0,261,259,1,0,0,0,262,
+        263,5,35,0,0,263,37,1,0,0,0,264,265,5,6,0,0,265,267,5,32,0,0,266,
+        268,3,30,15,0,267,266,1,0,0,0,267,268,1,0,0,0,268,269,1,0,0,0,269,
+        276,5,33,0,0,270,271,5,7,0,0,271,272,5,32,0,0,272,273,3,6,3,0,273,
+        274,5,33,0,0,274,276,1,0,0,0,275,264,1,0,0,0,275,270,1,0,0,0,276,
+        39,1,0,0,0,29,48,61,68,73,80,89,94,104,112,117,125,130,150,155,171,
+        184,186,192,201,212,221,225,235,243,247,252,259,267,275
+>>>>>>> guto-ajustes-front
     ]
 
 class JavythonParser ( Parser ):
@@ -117,20 +220,20 @@ class JavythonParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'program'", "'main'", "'end'", "'return'", 
-                     "<INVALID>", "'print'", "'input'", "'if'", "'else'", 
+    literalNames = [ "<INVALID>", "'decIds'", "'program'", "'main'", "'end'", 
+                     "'return'", "'print'", "'input'", "'if'", "'else'", 
                      "'while'", "'for'", "'break'", "'void'", "'bool'", 
                      "'int'", "'real'", "'str'", "'true'", "'false'", "'+'", 
                      "'-'", "'*'", "'/'", "'++'", "'--'", "'='", "'=='", 
-                     "'!='", "'>'", "'<'", "'!'", "'>='", "'<='", "'and'", 
-                     "'or'", "'('", "')'", "'{'", "'}'", "':'", "';'", "','" ]
+                     "'!='", "'>'", "'<'", "'!'", "'('", "')'", "'{'", "'}'", 
+                     "':'", "';'", "','" ]
 
-    symbolicNames = [ "<INVALID>", "PROGRAM", "MAIN", "END", "RETURN", "DECIDS", 
-                      "PRINT", "INPUT", "IF", "ELSE", "WHILE", "FOR", "BREAK", 
-                      "VOID", "BOOL_TYPE", "INT_TYPE", "REAL_TYPE", "STR_TYPE", 
-                      "TRUE", "FALSE", "ADD", "SUB", "MUL", "DIV", "INC", 
-                      "DEC", "ASSIGN", "EQ", "NEQ", "GT", "LT", "NOT", "GE", 
-                      "LE", "AND", "OR", "LPAREN", "RPAREN", "LBRACE", "RBRACE", 
+    symbolicNames = [ "<INVALID>", "<INVALID>", "PROGRAM", "MAIN", "END", 
+                      "RETURN", "PRINT", "INPUT", "IF", "ELSE", "WHILE", 
+                      "FOR", "BREAK", "VOID", "BOOL_TYPE", "INT_TYPE", "REAL_TYPE", 
+                      "STR_TYPE", "TRUE", "FALSE", "ADD", "SUB", "MUL", 
+                      "DIV", "INC", "DEC", "ASSIGN", "EQ", "NEQ", "GT", 
+                      "LT", "NOT", "LPAREN", "RPAREN", "LBRACE", "RBRACE", 
                       "COLON", "SEMICOLON", "COMMA", "STRING", "REAL", "INT", 
                       "ID", "WS", "LINE_COMMENT" ]
 
@@ -162,11 +265,11 @@ class JavythonParser ( Parser ):
                    "io", "atribuicao", "chamadaMetodo", "argumentos", "expressao" ]
 
     EOF = Token.EOF
-    PROGRAM=1
-    MAIN=2
-    END=3
-    RETURN=4
-    DECIDS=5
+    T__0=1
+    PROGRAM=2
+    MAIN=3
+    END=4
+    RETURN=5
     PRINT=6
     INPUT=7
     IF=8
@@ -193,23 +296,19 @@ class JavythonParser ( Parser ):
     GT=29
     LT=30
     NOT=31
-    GE=32
-    LE=33
-    AND=34
-    OR=35
-    LPAREN=36
-    RPAREN=37
-    LBRACE=38
-    RBRACE=39
-    COLON=40
-    SEMICOLON=41
-    COMMA=42
-    STRING=43
-    REAL=44
-    INT=45
-    ID=46
-    WS=47
-    LINE_COMMENT=48
+    LPAREN=32
+    RPAREN=33
+    LBRACE=34
+    RBRACE=35
+    COLON=36
+    SEMICOLON=37
+    COMMA=38
+    STRING=39
+    REAL=40
+    INT=41
+    ID=42
+    WS=43
+    LINE_COMMENT=44
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -330,11 +429,16 @@ class JavythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+<<<<<<< HEAD
         def LBRACE(self):
             return self.getToken(JavythonParser.LBRACE, 0)
 
         def RBRACE(self):
             return self.getToken(JavythonParser.RBRACE, 0)
+=======
+        def COLON(self):
+            return self.getToken(JavythonParser.COLON, 0)
+>>>>>>> guto-ajustes-front
 
         def comando(self, i:int=None):
             if i is None:
@@ -365,8 +469,96 @@ class JavythonParser ( Parser ):
 
     def bloco(self):
 
+<<<<<<< HEAD
         localctx = JavythonParser.BlocoContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_bloco)
+=======
+        localctx = JavythonParser.DecIdsContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 2, self.RULE_decIds)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 54
+            self.match(JavythonParser.T__0)
+            self.state = 55
+            self.match(JavythonParser.COLON)
+            self.state = 59 
+            self._errHandler.sync(self)
+            _alt = 1
+            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
+                if _alt == 1:
+                    self.state = 56
+                    self.declaracao()
+                    self.state = 57
+                    self.match(JavythonParser.SEMICOLON)
+
+                else:
+                    raise NoViableAltException(self)
+                self.state = 61 
+                self._errHandler.sync(self)
+                _alt = self._interp.adaptivePredict(self._input,1,self._ctx)
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class DeclaracaoContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def listaIds(self):
+            return self.getTypedRuleContext(JavythonParser.ListaIdsContext,0)
+
+
+        def COLON(self):
+            return self.getToken(JavythonParser.COLON, 0)
+
+        def tipo(self):
+            return self.getTypedRuleContext(JavythonParser.TipoContext,0)
+
+
+        def ASSIGN(self):
+            return self.getToken(JavythonParser.ASSIGN, 0)
+
+        def valor(self):
+            return self.getTypedRuleContext(JavythonParser.ValorContext,0)
+
+
+        def ID(self):
+            return self.getToken(JavythonParser.ID, 0)
+
+        def getRuleIndex(self):
+            return JavythonParser.RULE_declaracao
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterDeclaracao" ):
+                listener.enterDeclaracao(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitDeclaracao" ):
+                listener.exitDeclaracao(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclaracao" ):
+                return visitor.visitDeclaracao(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def declaracao(self):
+
+        localctx = JavythonParser.DeclaracaoContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 4, self.RULE_declaracao)
+>>>>>>> guto-ajustes-front
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
@@ -449,6 +641,7 @@ class JavythonParser ( Parser ):
             self.state = 69
             self._errHandler.sync(self)
             _la = self._input.LA(1)
+<<<<<<< HEAD
             if _la==5:
                 self.state = 68
                 self.decIds()
@@ -460,6 +653,9 @@ class JavythonParser ( Parser ):
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & 132012265184720) != 0):
                 self.state = 71
                 self.comando()
+=======
+            while _la==38:
+>>>>>>> guto-ajustes-front
                 self.state = 76
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -541,6 +737,7 @@ class JavythonParser ( Parser ):
             self.state = 87
             self._errHandler.sync(self)
             _la = self._input.LA(1)
+<<<<<<< HEAD
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & 132012265184720) != 0):
                 self.state = 84
                 self.comando()
@@ -548,6 +745,13 @@ class JavythonParser ( Parser ):
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
+=======
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 3848291483648) != 0)):
+                self._errHandler.recoverInline(self)
+            else:
+                self._errHandler.reportMatch(self)
+                self.consume()
+>>>>>>> guto-ajustes-front
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -706,8 +910,13 @@ class JavythonParser ( Parser ):
             self.state = 107
             self._errHandler.sync(self)
             _la = self._input.LA(1)
+<<<<<<< HEAD
             while _la==42:
                 self.state = 103
+=======
+            while _la==38:
+                self.state = 100
+>>>>>>> guto-ajustes-front
                 self.match(JavythonParser.COMMA)
                 self.state = 104
                 self.parametro()
@@ -835,6 +1044,7 @@ class JavythonParser ( Parser ):
             self.match(JavythonParser.COLON)
             self.state = 118 
             self._errHandler.sync(self)
+<<<<<<< HEAD
             _alt = 1
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt == 1:
@@ -846,6 +1056,21 @@ class JavythonParser ( Parser ):
                 else:
                     raise NoViableAltException(self)
                 self.state = 120 
+=======
+            _la = self._input.LA(1)
+            if _la==1:
+                self.state = 111
+                self.decIds()
+
+
+            self.state = 117
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782550496) != 0):
+                self.state = 114
+                self.comando()
+                self.state = 119
+>>>>>>> guto-ajustes-front
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,10,self._ctx)
 
@@ -1006,12 +1231,27 @@ class JavythonParser ( Parser ):
             self.state = 139
             self._errHandler.sync(self)
             _la = self._input.LA(1)
+<<<<<<< HEAD
             while _la==42:
                 self.state = 135
                 self.match(JavythonParser.COMMA)
                 self.state = 136
                 self.match(JavythonParser.ID)
                 self.state = 141
+=======
+            if _la==1:
+                self.state = 124
+                self.decIds()
+
+
+            self.state = 130
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782550496) != 0):
+                self.state = 127
+                self.comando()
+                self.state = 132
+>>>>>>> guto-ajustes-front
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1284,9 +1524,23 @@ class JavythonParser ( Parser ):
 
             elif la_ == 8:
                 self.enterOuterAlt(localctx, 8)
+<<<<<<< HEAD
                 self.state = 163
                 self.match(JavythonParser.BREAK)
                 self.state = 164
+=======
+                self.state = 148
+                self.match(JavythonParser.RETURN)
+                self.state = 150
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782542848) != 0):
+                    self.state = 149
+                    self.expressao(0)
+
+
+                self.state = 152
+>>>>>>> guto-ajustes-front
                 self.match(JavythonParser.SEMICOLON)
                 pass
 
@@ -2367,6 +2621,595 @@ class JavythonParser ( Parser ):
         return localctx
 
 
+<<<<<<< HEAD
+=======
+    class ChamadaMetodoContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def ID(self):
+            return self.getToken(JavythonParser.ID, 0)
+
+        def LPAREN(self):
+            return self.getToken(JavythonParser.LPAREN, 0)
+
+        def RPAREN(self):
+            return self.getToken(JavythonParser.RPAREN, 0)
+
+        def argumentos(self):
+            return self.getTypedRuleContext(JavythonParser.ArgumentosContext,0)
+
+
+        def getRuleIndex(self):
+            return JavythonParser.RULE_chamadaMetodo
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterChamadaMetodo" ):
+                listener.enterChamadaMetodo(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitChamadaMetodo" ):
+                listener.exitChamadaMetodo(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitChamadaMetodo" ):
+                return visitor.visitChamadaMetodo(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def chamadaMetodo(self):
+
+        localctx = JavythonParser.ChamadaMetodoContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 28, self.RULE_chamadaMetodo)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 189
+            self.match(JavythonParser.ID)
+            self.state = 190
+            self.match(JavythonParser.LPAREN)
+            self.state = 192
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782542848) != 0):
+                self.state = 191
+                self.argumentos()
+
+
+            self.state = 194
+            self.match(JavythonParser.RPAREN)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class ArgumentosContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def expressao(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(JavythonParser.ExpressaoContext)
+            else:
+                return self.getTypedRuleContext(JavythonParser.ExpressaoContext,i)
+
+
+        def COMMA(self, i:int=None):
+            if i is None:
+                return self.getTokens(JavythonParser.COMMA)
+            else:
+                return self.getToken(JavythonParser.COMMA, i)
+
+        def getRuleIndex(self):
+            return JavythonParser.RULE_argumentos
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterArgumentos" ):
+                listener.enterArgumentos(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitArgumentos" ):
+                listener.exitArgumentos(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArgumentos" ):
+                return visitor.visitArgumentos(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def argumentos(self):
+
+        localctx = JavythonParser.ArgumentosContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 30, self.RULE_argumentos)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 196
+            self.expressao(0)
+            self.state = 201
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==38:
+                self.state = 197
+                self.match(JavythonParser.COMMA)
+                self.state = 198
+                self.expressao(0)
+                self.state = 203
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class IfElseContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def IF(self):
+            return self.getToken(JavythonParser.IF, 0)
+
+        def LPAREN(self):
+            return self.getToken(JavythonParser.LPAREN, 0)
+
+        def expressao(self):
+            return self.getTypedRuleContext(JavythonParser.ExpressaoContext,0)
+
+
+        def RPAREN(self):
+            return self.getToken(JavythonParser.RPAREN, 0)
+
+        def LBRACE(self, i:int=None):
+            if i is None:
+                return self.getTokens(JavythonParser.LBRACE)
+            else:
+                return self.getToken(JavythonParser.LBRACE, i)
+
+        def RBRACE(self, i:int=None):
+            if i is None:
+                return self.getTokens(JavythonParser.RBRACE)
+            else:
+                return self.getToken(JavythonParser.RBRACE, i)
+
+        def comando(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(JavythonParser.ComandoContext)
+            else:
+                return self.getTypedRuleContext(JavythonParser.ComandoContext,i)
+
+
+        def ELSE(self):
+            return self.getToken(JavythonParser.ELSE, 0)
+
+        def getRuleIndex(self):
+            return JavythonParser.RULE_ifElse
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterIfElse" ):
+                listener.enterIfElse(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitIfElse" ):
+                listener.exitIfElse(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfElse" ):
+                return visitor.visitIfElse(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def ifElse(self):
+
+        localctx = JavythonParser.IfElseContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 32, self.RULE_ifElse)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 204
+            self.match(JavythonParser.IF)
+            self.state = 205
+            self.match(JavythonParser.LPAREN)
+            self.state = 206
+            self.expressao(0)
+            self.state = 207
+            self.match(JavythonParser.RPAREN)
+            self.state = 208
+            self.match(JavythonParser.LBRACE)
+            self.state = 212
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782550496) != 0):
+                self.state = 209
+                self.comando()
+                self.state = 214
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+            self.state = 215
+            self.match(JavythonParser.RBRACE)
+            self.state = 225
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==9:
+                self.state = 216
+                self.match(JavythonParser.ELSE)
+                self.state = 217
+                self.match(JavythonParser.LBRACE)
+                self.state = 221
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782550496) != 0):
+                    self.state = 218
+                    self.comando()
+                    self.state = 223
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+
+                self.state = 224
+                self.match(JavythonParser.RBRACE)
+
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class WhileLoopContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def WHILE(self):
+            return self.getToken(JavythonParser.WHILE, 0)
+
+        def LPAREN(self):
+            return self.getToken(JavythonParser.LPAREN, 0)
+
+        def expressao(self):
+            return self.getTypedRuleContext(JavythonParser.ExpressaoContext,0)
+
+
+        def RPAREN(self):
+            return self.getToken(JavythonParser.RPAREN, 0)
+
+        def LBRACE(self):
+            return self.getToken(JavythonParser.LBRACE, 0)
+
+        def RBRACE(self):
+            return self.getToken(JavythonParser.RBRACE, 0)
+
+        def comando(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(JavythonParser.ComandoContext)
+            else:
+                return self.getTypedRuleContext(JavythonParser.ComandoContext,i)
+
+
+        def getRuleIndex(self):
+            return JavythonParser.RULE_whileLoop
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterWhileLoop" ):
+                listener.enterWhileLoop(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitWhileLoop" ):
+                listener.exitWhileLoop(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitWhileLoop" ):
+                return visitor.visitWhileLoop(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def whileLoop(self):
+
+        localctx = JavythonParser.WhileLoopContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 34, self.RULE_whileLoop)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 227
+            self.match(JavythonParser.WHILE)
+            self.state = 228
+            self.match(JavythonParser.LPAREN)
+            self.state = 229
+            self.expressao(0)
+            self.state = 230
+            self.match(JavythonParser.RPAREN)
+            self.state = 231
+            self.match(JavythonParser.LBRACE)
+            self.state = 235
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782550496) != 0):
+                self.state = 232
+                self.comando()
+                self.state = 237
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+            self.state = 238
+            self.match(JavythonParser.RBRACE)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class ForLoopContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def FOR(self):
+            return self.getToken(JavythonParser.FOR, 0)
+
+        def LPAREN(self):
+            return self.getToken(JavythonParser.LPAREN, 0)
+
+        def SEMICOLON(self, i:int=None):
+            if i is None:
+                return self.getTokens(JavythonParser.SEMICOLON)
+            else:
+                return self.getToken(JavythonParser.SEMICOLON, i)
+
+        def RPAREN(self):
+            return self.getToken(JavythonParser.RPAREN, 0)
+
+        def LBRACE(self):
+            return self.getToken(JavythonParser.LBRACE, 0)
+
+        def RBRACE(self):
+            return self.getToken(JavythonParser.RBRACE, 0)
+
+        def atribuicao(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(JavythonParser.AtribuicaoContext)
+            else:
+                return self.getTypedRuleContext(JavythonParser.AtribuicaoContext,i)
+
+
+        def expressao(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(JavythonParser.ExpressaoContext)
+            else:
+                return self.getTypedRuleContext(JavythonParser.ExpressaoContext,i)
+
+
+        def comando(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(JavythonParser.ComandoContext)
+            else:
+                return self.getTypedRuleContext(JavythonParser.ComandoContext,i)
+
+
+        def getRuleIndex(self):
+            return JavythonParser.RULE_forLoop
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterForLoop" ):
+                listener.enterForLoop(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitForLoop" ):
+                listener.exitForLoop(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForLoop" ):
+                return visitor.visitForLoop(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def forLoop(self):
+
+        localctx = JavythonParser.ForLoopContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 36, self.RULE_forLoop)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 240
+            self.match(JavythonParser.FOR)
+            self.state = 241
+            self.match(JavythonParser.LPAREN)
+            self.state = 243
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==42:
+                self.state = 242
+                self.atribuicao()
+
+
+            self.state = 245
+            self.match(JavythonParser.SEMICOLON)
+            self.state = 247
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782542848) != 0):
+                self.state = 246
+                self.expressao(0)
+
+
+            self.state = 249
+            self.match(JavythonParser.SEMICOLON)
+            self.state = 252
+            self._errHandler.sync(self)
+            la_ = self._interp.adaptivePredict(self._input,25,self._ctx)
+            if la_ == 1:
+                self.state = 250
+                self.expressao(0)
+
+            elif la_ == 2:
+                self.state = 251
+                self.atribuicao()
+
+
+            self.state = 254
+            self.match(JavythonParser.RPAREN)
+            self.state = 255
+            self.match(JavythonParser.LBRACE)
+            self.state = 259
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782550496) != 0):
+                self.state = 256
+                self.comando()
+                self.state = 261
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+            self.state = 262
+            self.match(JavythonParser.RBRACE)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class IoContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def PRINT(self):
+            return self.getToken(JavythonParser.PRINT, 0)
+
+        def LPAREN(self):
+            return self.getToken(JavythonParser.LPAREN, 0)
+
+        def RPAREN(self):
+            return self.getToken(JavythonParser.RPAREN, 0)
+
+        def argumentos(self):
+            return self.getTypedRuleContext(JavythonParser.ArgumentosContext,0)
+
+
+        def INPUT(self):
+            return self.getToken(JavythonParser.INPUT, 0)
+
+        def listaIds(self):
+            return self.getTypedRuleContext(JavythonParser.ListaIdsContext,0)
+
+
+        def getRuleIndex(self):
+            return JavythonParser.RULE_io
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterIo" ):
+                listener.enterIo(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitIo" ):
+                listener.exitIo(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIo" ):
+                return visitor.visitIo(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def io(self):
+
+        localctx = JavythonParser.IoContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 38, self.RULE_io)
+        self._la = 0 # Token type
+        try:
+            self.state = 275
+            self._errHandler.sync(self)
+            token = self._input.LA(1)
+            if token in [6]:
+                self.enterOuterAlt(localctx, 1)
+                self.state = 264
+                self.match(JavythonParser.PRINT)
+                self.state = 265
+                self.match(JavythonParser.LPAREN)
+                self.state = 267
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8252782542848) != 0):
+                    self.state = 266
+                    self.argumentos()
+
+
+                self.state = 269
+                self.match(JavythonParser.RPAREN)
+                pass
+            elif token in [7]:
+                self.enterOuterAlt(localctx, 2)
+                self.state = 270
+                self.match(JavythonParser.INPUT)
+                self.state = 271
+                self.match(JavythonParser.LPAREN)
+                self.state = 272
+                self.listaIds()
+                self.state = 273
+                self.match(JavythonParser.RPAREN)
+                pass
+            else:
+                raise NoViableAltException(self)
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+>>>>>>> guto-ajustes-front
 
     def sempred(self, localctx:RuleContext, ruleIndex:int, predIndex:int):
         if self._predicates == None:

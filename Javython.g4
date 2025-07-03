@@ -1,49 +1,21 @@
 // Caminho do arquivo: Javython.g4
 grammar Javython;
 
-// ------------------------------------------------------------------
-// 1. Regra Principal (Program)
-// ------------------------------------------------------------------
+options { caseInsensitive=true; }
 
 program:
     PROGRAM COLON ID SEMICOLON
-    decIds?
+    decIds
     metodo*
     blocoMain
     END;
 
-// ------------------------------------------------------------------
-// 2. Estruturas de Bloco e Escopo
-// ------------------------------------------------------------------
-
-bloco:
-    LBRACE comando* RBRACE;
-
-blocoMetodo:
-    LBRACE decIds? comando* RBRACE;
-
-blocoMain:
-    MAIN COLON decIds? comando*;
-
-metodo:
-    (tipo | VOID) ID LPAREN parametros? RPAREN blocoMetodo;
-
-parametros:
-    parametro (COMMA parametro)*;
-
-parametro:
-    tipo ID;
-
-// ------------------------------------------------------------------
-// 3. Regras de Declaração
-// ------------------------------------------------------------------
-
 decIds:
-    DECIDS COLON (declaracao SEMICOLON)+;
+    'decIds' COLON (declaracao SEMICOLON)+;
 
 declaracao:
-    listaIds COLON tipo (ASSIGN valor)?
-    | ID ASSIGN valor;
+    listaIds COLON tipo (ASSIGN valor)? // Declaração com tipo explícito e atribuição opcional
+    | ID ASSIGN valor;                  // Inferência de tipo para constantes/variáveis
 
 listaIds:
     ID (COMMA ID)*;
@@ -54,9 +26,20 @@ tipo:
 valor:
     INT | REAL | STRING | TRUE | FALSE;
 
-// ------------------------------------------------------------------
-// 4. Regras de Comando e Estruturas de Controle
-// ------------------------------------------------------------------
+metodo:
+    (tipo | VOID) ID LPAREN parametros? RPAREN blocoMetodo;
+
+parametros:
+    parametro (COMMA parametro)*;
+
+parametro:
+    tipo ID;
+
+blocoMetodo:
+    LBRACE decIds? comando* RBRACE;
+
+blocoMain:
+    MAIN COLON decIds? comando*;
 
 comando:
     atribuicao SEMICOLON
@@ -66,28 +49,22 @@ comando:
     | whileLoop
     | forLoop
     | RETURN expressao? SEMICOLON
-    | BREAK SEMICOLON
-    | expressao SEMICOLON; // Permitir expressões como um comando
-
-ifElse:
-    IF LPAREN expressao RPAREN bloco (ELSE bloco)?;
-
-whileLoop:
-    WHILE LPAREN expressao RPAREN bloco;
-
-forLoop:
-    FOR LPAREN atribuicao? SEMICOLON expressao? SEMICOLON (expressao | atribuicao)? RPAREN bloco;
-
-io:
-    PRINT LPAREN argumentos? RPAREN
-    | INPUT LPAREN listaIds RPAREN;
-
-// ------------------------------------------------------------------
-// 5. Regras de Expressão e Atribuição (Ordem de Precedência)
-// ------------------------------------------------------------------
+    | BREAK SEMICOLON;
 
 atribuicao:
     ID ASSIGN expressao;
+
+expressao:
+    (SUB | NOT) expressao                                                       # unariaExpr
+    | chamadaMetodo                                                             # chamadaExpr
+    | ID                                                                        # idExpr
+    | valor                                                                     # valorExpr
+    | LPAREN expressao RPAREN                                                   # parenExpr
+    | <assoc=left> expressao (MUL | DIV) expressao                              # multdivExpr
+    | <assoc=left> expressao (ADD | SUB) expressao                              # addsubExpr
+    | <assoc=left> expressao (EQ | NEQ | GT | LT) expressao                     # relacionalExpr
+    | <assoc=right> expressao (INC | DEC)                                       # postfixExpr
+    ;
 
 chamadaMetodo:
     ID LPAREN argumentos? RPAREN;
@@ -95,35 +72,33 @@ chamadaMetodo:
 argumentos:
     expressao (COMMA expressao)*;
 
-expressao:
-      LPAREN expressao RPAREN                                         # parenExpr
-    | chamadaMetodo                                                   # chamadaExpr
-    | ID                                                              # idExpr
-    | valor                                                           # valorExpr
-    | <assoc=right> expressao (INC | DEC)                             # postfixExpr
-    | (SUB | NOT) expressao                                           # unariaExpr
-    | <assoc=left> expressao (MUL | DIV) expressao                    # multdivExpr
-    | <assoc=left> expressao (ADD | SUB) expressao                    # addsubExpr
-    | <assoc=left> expressao (EQ | NEQ | GT | LT | GE | LE) expressao # relacionalExpr
-    | <assoc=left> expressao (AND | OR) expressao                     # logicaExpr
-    ;
+ifElse:
+    IF LPAREN expressao RPAREN LBRACE comando* RBRACE (ELSE LBRACE comando* RBRACE)?;
 
-// ------------------------------------------------------------------
-// 6. Regras do Lexer (Tokens)
-// ------------------------------------------------------------------
+whileLoop:
+    WHILE LPAREN expressao RPAREN LBRACE comando* RBRACE;
+
+forLoop:
+    FOR LPAREN atribuicao? SEMICOLON expressao? SEMICOLON (expressao | atribuicao)? RPAREN LBRACE comando* RBRACE;
+
+io:
+    PRINT LPAREN argumentos? RPAREN
+    | INPUT LPAREN listaIds RPAREN;
+
+// --- Lexer Rules ---
 
 PROGRAM: 'program';
 MAIN: 'main';
 END: 'end';
 RETURN: 'return';
 
-// Regra 'decIds' case-insensitive
-DECIDS: D E C I D S;
-fragment D: ('d'|'D');
-fragment E: ('e'|'E');
-fragment C: ('c'|'C');
-fragment I: ('i'|'I');
-fragment S: ('s'|'S');
+// // Regra 'decIds' case-insensitive
+// DECIDS: D E C I D S;
+// fragment D: ('d'|'D');
+// fragment E: ('e'|'E');
+// fragment C: ('c'|'C');
+// fragment I: ('i'|'I');
+// fragment S: ('s'|'S');
 
 PRINT: 'print';
 INPUT: 'input';
@@ -154,10 +129,7 @@ NEQ: '!=';
 GT: '>';
 LT: '<';
 NOT: '!';
-GE: '>=';
-LE: '<=';
-AND: 'and';
-OR: 'or';
+
 
 LPAREN: '(';
 RPAREN: ')';
@@ -171,6 +143,6 @@ STRING: '"' (~["])* '"';
 REAL: [0-9]+ '.' [0-9]+;
 INT: [0-9]+;
 
-ID: [a-zA-Z_] [a-zA-Z_0-9]*;
+ID: [a-z_] [a-z_0-9]*;
 WS: [ \t\r\n]+ -> skip;
 LINE_COMMENT: '//' ~[\r\n]* -> skip;

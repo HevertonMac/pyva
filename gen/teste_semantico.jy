@@ -1,0 +1,57 @@
+// Caminho: teste_semantico.jy
+
+program: TesteSemantico;
+
+decIds:
+    PI = 3.14; // Constante global, OK.
+    globalVar: int; // Variável global, OK.
+
+// Método para testes de retorno
+int retornaNumero() {
+    // ERRO SEMÂNTICO 1: Tipo de retorno incompatível.
+    // O método deve retornar 'int', mas está retornando 'str'.
+    return "isto e um texto"; 
+}
+
+// Método para testes de parâmetros
+void recebeInt(int numero) {
+    print("Recebi: ", numero);
+}
+
+main:
+    decIds:
+        // --- Teste do problema de SINCRONIZAÇÃO ---
+        // A gramática permite isso, mas o visitor atual não tem código
+        // para verificar o tipo na inicialização.
+        // ERRO SEMÂNTICO 2: Incompatibilidade de tipo na declaração com inicialização.
+        idade: int = "trinta"; 
+
+        // --- Testes do problema de "CONCLUSÃO" (verificações faltantes) ---
+        variavelInt: int;
+        variavelBool: bool;
+        
+        // ERRO SEMÂNTICO 3: Tipos incompatíveis em uma expressão aritmética.
+        // Não se pode somar um inteiro com um booleano.
+        variavelInt = 10 + true;
+        
+        // ERRO SEMÂNTICO 4: Tipos incompatíveis em uma atribuição.
+        // A variável é booleana, mas está recebendo o resultado de uma divisão real.
+        variavelBool = 10.5 / 2.0;
+
+        // ERRO SEMÂNTICO 5: Chamada de método com tipo de argumento incorreto.
+        // O método 'recebeInt' espera um 'int', mas está recebendo um 'bool'.
+        recebeInt(false);
+
+        // ERRO SEMÂNTICO 6: Um método void não pode ter 'return' com valor.
+        // O método 'print' é nativo e efetivamente 'void', mas vamos simular.
+        // Se tivéssemos `void meuMetodo() { return 1; }`, seria um erro.
+
+        // --- Testes para erros que o visitor ATUAL JÁ DEVE PEGAR ---
+        // (Isso ajuda a confirmar que a base está funcionando)
+
+        // ERRO SEMÂNTICO 7: Atribuição a uma constante.
+        //PI = 3.14159;
+
+        // ERRO SEMÂNTICO 8: Uso de variável não declarada.
+     // outraVariavel = 100;
+end
